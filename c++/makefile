@@ -1,21 +1,22 @@
 SRCDIR = src
 INCDIR = inc
+OBJDIR = obj
 
 CC = g++
 CCFLAGS = -std=c++11 -Wall -g -I $(INCDIR)/
 
 TARGET = main
 
-$(TARGET): $(TARGET).o Vettore3D.o Grave.o SistemaSolare.o
+$(TARGET): $(OBJDIR)/$(TARGET).o $(OBJDIR)/Vettore3D.o $(OBJDIR)/Grave.o $(OBJDIR)/SistemaSolare.o
 	$(CC) $(CCFLAGS) -o $(TARGET) $^
 
-$(TARGET).o: main.cpp
-	$(CC) $(CCFLAGS) -c $<
+$(OBJDIR)/$(TARGET).o: main.cpp
+	$(CC) $(CCFLAGS) -c -o $@ $<
 
-%.o: $(SRCDIR)/%.cpp
-	$(CC) $(CCFLAGS) -c $<
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp
+	$(CC) $(CCFLAGS) -c -o $@ $<
 
 .PHONY: clean
 
 clean:
-	rm -rf *.o $(TARGET)
+	rm -rf $(OBJDIR)/*.o $(TARGET)
