@@ -1,4 +1,15 @@
-##############
+###################
+### General Section
+
+.DS_Store
+
+################################
+### Specific for this repository 
+
+main
+
+
+##################
 ### Python Section
 
 # Byte-compiled / optimized / DLL files

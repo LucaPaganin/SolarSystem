@@ -10,7 +10,20 @@
 #include "SistemaSolare.h"
 
 int main(){
-	
+    
+    Vettore3D r(1,2,3);
+    Vettore3D v(1,2,3);
+    double m=1;
+
+    Grave g(r,v,m);
+
+    std::vector<Grave> planets{g};
+
+    for (auto p: planets){
+        std::cout << p.R() << " " << p.V() << " " << p.M() << std::endl;
+    }
+
+    /*	
 	std::ifstream input_file("input_file.h");
 	std::ofstream output_file("output.txt");
 	
@@ -33,7 +46,7 @@ int main(){
 	
 	input_file.close();
 	output_file.close();
-	
+	*/
 	
 	return 0;
 }
