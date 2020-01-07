@@ -1,5 +1,8 @@
+SRCDIR = src
+INCDIR = inc
+
 CC = g++
-CCFLAGS = -std=c++11 -Wall -g -Iinc/
+CCFLAGS = -std=c++11 -Wall -g -I $(INCDIR)/
 
 TARGET = main
 
@@ -9,7 +12,7 @@ $(TARGET): $(TARGET).o Vettore3D.o Grave.o SistemaSolare.o
 $(TARGET).o: main.cpp
 	$(CC) $(CCFLAGS) -c $<
 
-%.o: src/%.cpp
+%.o: $(SRCDIR)/%.cpp
 	$(CC) $(CCFLAGS) -c $<
 
 .PHONY: clean
