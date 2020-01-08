@@ -2,6 +2,8 @@
 ### General Section
 
 .DS_Store
+*.xcodeproj*
+*.xcworkspace
 
 ################################
 ### Specific for this repository
