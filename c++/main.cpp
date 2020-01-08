@@ -10,6 +10,8 @@
 #include "SistemaSolare.h"
 
 int main(){
+	
+	std::ofstream output_file("output/temporal_evolution.txt");
     
     Vettore3D r(1,2,3);
     Vettore3D v(1,2,3);
@@ -25,7 +27,7 @@ int main(){
 
     /*	
 	std::ifstream input_file("input_file.h");
-	std::ofstream output_file("output.txt");
+	
 	
 	SistemaSolare system;
 	
