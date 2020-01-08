@@ -20,6 +20,8 @@ void SistemaSolare::ReadInitialConditions(std::istream& is){
 	}
 }
 
+std::vector<Grave> SistemaSolare::Planets() const {return m_planets;}
+
 void SistemaSolare::print_planets_coords(std::ostream& os){
 	for (auto &p : m_planets) {
 		os << p.R() << " ";
@@ -27,8 +29,16 @@ void SistemaSolare::print_planets_coords(std::ostream& os){
 	os << std::endl;
 }
 
+void SistemaSolare::PrintSystemCoords(std::ostream& os){
+	os << "[";
+	for (const auto p : m_planets) {
+		os << "[" << p.R() << "]" << ",";
+	}
+	os << "]" << std::endl;
+}
+
 void SistemaSolare::print_system(){
-	for (auto p : m_planets) {
+	for (const auto &p : m_planets) {
 		std::cout << "r = " << p.R() << std::endl;
 		std::cout << "v = " << p.V() << std::endl;
 		std::cout << "m = " << p.M() << std::endl << std::endl;
@@ -41,7 +51,7 @@ void SistemaSolare::EulerCromerStep(double dt){
 		m_planets[i].R((m_planets[i].R() + dt*m_planets[i].V()));
 		
 		Vettore3D field = m_planets[i].CampoGravitazionale(m_planets);
-	
+		
 		m_planets[i].V((m_planets[i].V() + dt * field));
 	}
 	

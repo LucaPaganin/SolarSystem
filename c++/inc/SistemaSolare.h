@@ -33,7 +33,10 @@ public:
 	{
 	}
 	
+	std::vector<Grave> Planets() const;
+	
 	void ReadInitialConditions(std::istream&);
+	void PrintSystemCoords(std::ostream&);
 	void print_planets_coords(std::ostream&);
 	void print_system();
 	

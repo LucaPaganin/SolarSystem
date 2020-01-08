@@ -89,7 +89,7 @@ double Vettore3D::operator*(const Vettore3D& v){
 //Friends
 
 std::ostream& operator<<(std::ostream& os, const Vettore3D& v){
-	os << v.m_v[0] << " " << v.m_v[1] << " " << v.m_v[2];
+	os << v.m_v[0] << ", " << v.m_v[1] << ", " << v.m_v[2];
 	return os;
 }
 
