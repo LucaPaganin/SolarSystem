@@ -1,39 +1,39 @@
 //
-//  SistemaSolare.hpp
+//  SolarSystem.h
 //  
 //
 //  Created by Luca Paganin on 06/01/2020.
 //
 
-#ifndef SISTEMASOLARE_H
-#define SISTEMASOLARE_H
+#ifndef SolarSystem_H
+#define SolarSystem_H
 
-#include "Grave.h"
-#include "Vettore3D.h"
+#include "PointMass.h"
+#include "Vector3D.h"
 #include <string>
 #include <iostream>
 #include <fstream>
 #include <vector>
 
-class SistemaSolare{
+class SolarSystem{
 private:
-	std::vector<Grave> m_planets;
+	std::vector<PointMass> m_planets;
 	std::string m_odemethod;
 public:
 	
-	SistemaSolare(const std::vector<Grave>& pns, const std::string& method):
+	SolarSystem(const std::vector<PointMass>& pns, const std::string& method):
 	m_planets(pns),
 	m_odemethod(method)
 	{
 	}
 	
-	SistemaSolare():
-	m_planets(std::vector<Grave>(0)),
+	SolarSystem():
+	m_planets(std::vector<PointMass>(0)),
 	m_odemethod("")
 	{
 	}
 	
-	std::vector<Grave> Planets() const;
+	std::vector<PointMass> Planets() const;
 	
 	void ReadInitialConditions(std::istream&);
 	void PrintSystemCoords(std::ostream&);
@@ -48,4 +48,4 @@ public:
 
 
 
-#endif /* SISTEMASOLARE_H */
+#endif /* SolarSystem_H */

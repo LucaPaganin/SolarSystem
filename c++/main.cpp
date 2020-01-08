@@ -5,16 +5,16 @@
 //  Created by Luca Paganin on 06/01/2020.
 //
 
-#include "Vettore3D.h"
-#include "Grave.h"
-#include "SistemaSolare.h"
+#include "Vector3D.h"
+#include "PointMass.h"
+#include "SolarSystem.h"
 
 int main(int argc, const char* argv[]){
 	
 	std::ofstream output_file("output/temporal_evolution.txt");
 	std::ifstream input_file("input_file.h");
 	
-	SistemaSolare system;
+	SolarSystem system;
 	
 	system.ReadInitialConditions(input_file);
 	
