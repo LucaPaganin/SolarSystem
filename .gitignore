@@ -4,9 +4,10 @@
 .DS_Store
 
 ################################
-### Specific for this repository 
+### Specific for this repository
 
 main
+output
 
 
 ##################
