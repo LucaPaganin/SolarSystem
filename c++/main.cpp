@@ -8,11 +8,21 @@
 #include "Vector3D.h"
 #include "PointMass.h"
 #include "SolarSystem.h"
+#include <cstdlib>
 
 int main(int argc, const char* argv[]){
 	
+	if (argc < 2) {
+		std::cout << "Usage: ./" << argv[0] << " initialconditions_file nsteps dt" << std::endl;
+		return 1;
+	}
+	
+	auto input_filename = argv[1];
+	int Nsteps = atoi(argv[2]);
+	float dt = atof(argv[3]);
+	
 	std::ofstream output_file("output/temporal_evolution.txt");
-	std::ifstream input_file("input_file.h");
+	std::ifstream input_file(input_filename);
 	
 	SolarSystem system;
 	
@@ -27,11 +37,7 @@ int main(int argc, const char* argv[]){
 		std::cout <<  "Coordinates: (" << p.R() << "); Velocity: (" << p.V() << "); Mass = " << p.M() << std::endl;
 	}
 	
-	
-	int N = 1e5;
-	double dt=1e-5;
-	
-	for (unsigned i=0; i<N; ++i){
+	for (unsigned i=0; i<Nsteps; ++i){
 		system.PrintSystemCoords(output_file);
 		system.EulerCromerStep(dt);
 	}

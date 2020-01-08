@@ -38,6 +38,8 @@ Vector3D PointMass::GravitationalField(const std::vector<PointMass>& sources){
 	for (auto src : sources) {
 		field += this->GravitationalField(src);
 	}
+	
+	//std::cout << field << std::endl;
 
 	return field;
 

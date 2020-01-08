@@ -8,16 +8,17 @@
 #ifndef PointMass_H
 #define PointMass_H
 
-#define G 38.94
+#define G 2.95905e-4
+
 
 /*
  Units:
 
  Length: A.U. --> 1 A.U. = 1.5e11 m
- Mass: Solar Masses --> 1 M_Sun = 1.98e30 kg
- Time: Years --> 1 y = 3.1536e7 s
+ Mass: Solar Masses --> 1 M_Sun = 1.989e30 kg
+ Time: Days --> 1 d = 86400 s
 
- G = 38.94 A.U.^3 M_Sun^-1 y^-2
+ G = 2.936e-4 A.U.^3 M_Sun^-1 d^-2
 
  */
 
