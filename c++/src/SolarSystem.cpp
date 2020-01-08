@@ -30,11 +30,10 @@ void SolarSystem::print_planets_coords(std::ostream& os){
 }
 
 void SolarSystem::PrintSystemCoords(std::ostream& os){
-	os << "[";
-	for (const auto p : m_planets) {
-		os << "[" << p.R() << "]" << ",";
+	for (const auto &p : m_planets) {
+		os << p.R() << " ";
 	}
-	os << "]" << std::endl;
+	os << std::endl;
 }
 
 void SolarSystem::print_system(){

@@ -17,6 +17,7 @@ int main(int argc, const char* argv[]){
 	SolarSystem system;
 	
 	system.ReadInitialConditions(input_file);
+	input_file.close();
 	
 	auto planets = system.Planets();
 	
@@ -26,21 +27,15 @@ int main(int argc, const char* argv[]){
 		std::cout <<  "Coordinates: (" << p.R() << "); Velocity: (" << p.V() << "); Mass = " << p.M() << std::endl;
 	}
 	
-	/*
-	 
-	 int N = 1e5;
-	 double dt=1e-5;
-	 
-	 for (int i=0; i<N; ++i){
-	 if (i%100 == 0)
-	 system.print_planets_coords(output_file);
-	 
-	 system.EulerCromerStep(dt);
-	 }
-	 
-	 
-	 input_file.close();
-	 */
+	
+	int N = 1e5;
+	double dt=1e-5;
+	
+	for (unsigned i=0; i<N; ++i){
+		system.PrintSystemCoords(output_file);
+		system.EulerCromerStep(dt);
+	}
+	
 	output_file.close();
 	return 0;
 }
