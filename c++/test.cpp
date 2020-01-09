@@ -57,7 +57,7 @@ int main(int argc, const char* argv[]){
 	input_file.close();
 
 	int Nsteps=1000;
-	double dt=1;
+	double dt=0.1;
 
 	for (unsigned i=0; i<Nsteps; ++i){
 		auto planets = test_system.Planets();

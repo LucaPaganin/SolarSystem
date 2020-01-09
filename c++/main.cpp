@@ -71,7 +71,7 @@ int main(int argc, const char* argv[]){
 	SolarSystem test_sys(test_planets, "");
 	
 	int Nsteps=1000;
-	double dt=1;
+	double dt=0.1;
 	
 	for (unsigned i=0; i<Nsteps; ++i){
 		auto planets = test_sys.Planets();
