@@ -5,8 +5,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 import json
 
+filename = "test_time_evolution.txt"
+
 cwd = Path(os.getcwd())
-datafile_path = cwd.parent / "c++" / "output" / "temporal_evolution.txt"
+datafile_path = cwd.parent / "c++" / "output" / filename
 
 data = np.loadtxt(datafile_path)
 
