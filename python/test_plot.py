@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 cwd = Path().resolve()
 
-filename = "test_time_evolution.txt"
+filename = "temporal_evolution.txt"
 
 coordfile = cwd.parent.joinpath("c++", "output", filename)
 

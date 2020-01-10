@@ -10,7 +10,6 @@
 
 #include "PointMass.h"
 #include "Vector3D.h"
-#include <string>
 #include <iostream>
 #include <fstream>
 #include <vector>

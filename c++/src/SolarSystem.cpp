@@ -14,9 +14,9 @@ void SolarSystem::ReadInitialConditions(std::istream& is){
 	std::string name;
 	double m,x,y,z,vx,vy,vz;
 	
-	while (is >> name >> m >> vx >> x >> vy >> y >> vz >> z) {
+	while (is >> name >> m >> x >> y >> z >> vx >> vy >> vz) {
 		
-		m_planets.push_back(PointMass(Vector3D(x,y,z), Vector3D(vx,vy,vz), m));
+		m_planets.push_back(PointMass(Vector3D(x,y,z), Vector3D(vx,vy,vz), m, name));
 	}
 }
 
@@ -30,6 +30,7 @@ void SolarSystem::print_planets_coords(std::ostream& os){
 }
 
 void SolarSystem::PrintSystemCoords(std::ostream& os){
+	
 	for (const auto &p : m_planets) {
 		os << p.R() << " ";
 	}
