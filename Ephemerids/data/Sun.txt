@@ -1,0 +1,93 @@
+*******************************************************************************
+Revised: July 31, 2013                  Sun                                 10
+
+PHYSICAL PROPERTIES (updated 2018-Aug-15):
+GM, km^3/s^2          = 132712440041.93938  Mass, 10^24 kg        = ~1988500
+Vol. mean radius, km  = 695700              Volume, 10^12 km^3    = 1412000
+Solar radius (IAU)    = 696000 km           Mean density, g/cm^3  = 1.408
+Radius (photosphere)  = 696500 km           Angular diam at 1 AU  = 1919.3"
+Photosphere temp., K  = 6600 (bottom)       Photosphere temp., K  = 4400(top)
+Photospheric depth    = ~500 km             Chromospheric depth   = ~2500 km
+Flatness, f           = 0.00005             Adopted sid. rot. per.= 25.38 d
+Surface gravity       =  274.0 m/s^2        Escape speed, km/s    =  617.7
+Pole (RA,DEC), deg.   = (286.13, 63.87)     Obliquity to ecliptic = 7.25 deg.
+Solar constant (1 AU) = 1367.6 W/m^2        Luminosity, 10^24 J/s = 382.8
+Mass-energy conv rate = 4.260 x 10^9 kg/s   Effective temp, K     = 5772
+Sunspot cycle         = 11.4 yr             Cycle 24 sunspot min. = 2008 A.D.
+
+Motion relative to nearby stars = apex : R.A.= 271 deg.; DEC.= +30 deg.
+speed: 19.4 km/s (0.0112 au/day)
+Motion relative to 2.73K BB/CBR = apex : l= 264.7 +- 0.8; b= 48.2 +- 0.5 deg.
+speed: 369 +-11 km/s
+*******************************************************************************
+
+
+
+
+*******************************************************************************
+Ephemeris / WWW_USER Wed Jan  8 12:40:06 2020 Pasadena, USA      / Horizons
+*******************************************************************************
+Target body name: Sun (10)                        {source: DE431mx}
+Center body name: Solar System Barycenter (0)     {source: DE431mx}
+Center-site name: BODY CENTER
+*******************************************************************************
+Start time      : A.D. 2020-Jan-08 00:00:00.0000 TDB
+Stop  time      : A.D. 2020-Jan-09 00:00:00.0000 TDB
+Step-size       : 1440 minutes
+*******************************************************************************
+Center geodetic : 0.00000000,0.00000000,0.0000000 {E-lon(deg),Lat(deg),Alt(km)}
+Center cylindric: 0.00000000,0.00000000,0.0000000 {E-lon(deg),Dxy(km),Dz(km)}
+Center radii    : (undefined)
+Output units    : AU-D
+Output type     : GEOMETRIC cartesian states
+Output format   : 2 (position and velocity)
+Reference frame : ICRF/J2000.0
+Coordinate systm: Ecliptic and Mean Equinox of Reference Epoch
+*******************************************************************************
+JDTDB
+X     Y     Z
+VX    VY    VZ
+*******************************************************************************
+$$SOE
+2458856.500000000 = A.D. 2020-Jan-08 00:00:00.0000 TDB
+X =-3.857022300275326E-03 Y = 7.425738921434983E-03 Z = 2.464082047600554E-05
+VX=-8.334249208811721E-06 VY=-2.062229084310973E-06 VZ= 2.298339656433683E-07
+2458857.500000000 = A.D. 2020-Jan-09 00:00:00.0000 TDB
+X =-3.865355257732141E-03 Y = 7.423671674455332E-03 Z = 2.487061573699198E-05
+VX=-8.331665393039516E-06 VY=-2.072259496988322E-06 VZ= 2.297564933575334E-07
+$$EOE
+*******************************************************************************
+Coordinate system description:
+
+Ecliptic and Mean Equinox of Reference Epoch
+
+Reference epoch: J2000.0
+XY-plane: plane of the Earth's orbit at the reference epoch
+Note: obliquity of 84381.448 arcseconds wrt ICRF equator (IAU76)
+X-axis  : out along ascending node of instantaneous plane of the Earth's
+orbit and the Earth's mean equator at the reference epoch
+Z-axis  : perpendicular to the xy-plane in the directional (+ or -) sense
+of Earth's north pole at the reference epoch.
+
+Symbol meaning [1 au= 149597870.700 km, 1 day= 86400.0 s]:
+
+JDTDB    Julian Day Number, Barycentric Dynamical Time
+X      X-component of position vector (au)
+Y      Y-component of position vector (au)
+Z      Z-component of position vector (au)
+VX     X-component of velocity vector (au/day)
+VY     Y-component of velocity vector (au/day)
+VZ     Z-component of velocity vector (au/day)
+
+Geometric states/elements have no aberrations applied.
+
+Computations by ...
+Solar System Dynamics Group, Horizons On-Line Ephemeris System
+4800 Oak Grove Drive, Jet Propulsion Laboratory
+Pasadena, CA  91109   USA
+Information: http://ssd.jpl.nasa.gov/
+Connect    : telnet://ssd.jpl.nasa.gov:6775  (via browser)
+http://ssd.jpl.nasa.gov/?horizons
+telnet ssd.jpl.nasa.gov 6775    (via command-line)
+Author     : Jon.D.Giorgini@jpl.nasa.gov
+*******************************************************************************

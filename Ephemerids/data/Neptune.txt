@@ -1,0 +1,94 @@
+*******************************************************************************
+Revised: December 14, 2018           Neptune                               899
+
+PHYSICAL DATA (update 2018-Aug-15):
+Mass x10^24 (kg)      = 102.413         Density (g/cm^3)       =  1.638
+Equat. radius (1 bar) = 24766+-15 km    Volume, 10^10 km^3     = 6254
+Vol. mean radius (km) = 24624+-21       Polar radius (km)      = 24342+-30
+Geometric Albedo      = 0.41            Flattening             =  0.0171
+Sid. rot. period (III)= 16.11+-0.01 hr  Sid. rot. rate (rad/s) =  0.000108338
+Mean solar day, h     =~16.11 h
+GM (km^3/s^2)         = 6835099.5       GM 1-sigma (km^3/s^2)  = +-10
+Equ. grav, ge (m/s^2) = 11.15           Pol. grav, gp (m/s^2)  = 11.41+-0.03
+Visual magnitude V(1,0)= -6.87
+Vis. mag. (opposition)=  +7.84          Obliquity to orbit     = 28.32 deg
+Sidereal orbit period = 164.788501027 y Sidereal orbit period  = 60189 d
+Mean daily motion     = 0.006020076dg/d Mean orbit velocity    =  5.43 km/s
+Atmos. temp. (1 bar)  =  72+-2 K        Escape speed (1 bar)  =  23.5 km/s
+Aroche(ice)/Rp        =  2.98           Hill's sphere rad., Rp = 4700
+Perihelion  Aphelion    Mean
+Solar Constant (W/m^2)         1.54        1.49        1.51
+Maximum Planetary IR (W/m^2)   0.52        0.52        0.52
+Minimum Planetary IR (W/m^2)   0.52        0.52        0.52
+*******************************************************************************
+
+
+
+
+*******************************************************************************
+Ephemeris / WWW_USER Wed Jan  8 12:43:48 2020 Pasadena, USA      / Horizons
+*******************************************************************************
+Target body name: Neptune (899)                   {source: nep090_merged_DE435}
+Center body name: Solar System Barycenter (0)     {source: DE431mx}
+Center-site name: BODY CENTER
+*******************************************************************************
+Start time      : A.D. 2020-Jan-08 00:00:00.0000 TDB
+Stop  time      : A.D. 2020-Jan-09 00:00:00.0000 TDB
+Step-size       : 1440 minutes
+*******************************************************************************
+Center geodetic : 0.00000000,0.00000000,0.0000000 {E-lon(deg),Lat(deg),Alt(km)}
+Center cylindric: 0.00000000,0.00000000,0.0000000 {E-lon(deg),Dxy(km),Dz(km)}
+Center radii    : (undefined)
+Output units    : AU-D
+Output type     : GEOMETRIC cartesian states
+Output format   : 2 (position and velocity)
+Reference frame : ICRF/J2000.0
+Coordinate systm: Ecliptic and Mean Equinox of Reference Epoch
+*******************************************************************************
+JDTDB
+X     Y     Z
+VX    VY    VZ
+*******************************************************************************
+$$SOE
+2458856.500000000 = A.D. 2020-Jan-08 00:00:00.0000 TDB
+X = 2.924353020234171E+01 Y =-6.338146601755990E+00 Z =-5.434246581683543E-01
+VX= 6.436374603185884E-04 VY= 3.086392186822279E-03 VZ=-7.819177858415637E-05
+2458857.500000000 = A.D. 2020-Jan-09 00:00:00.0000 TDB
+X = 2.924417376890990E+01 Y =-6.335059953826637E+00 Z =-5.435027157267038E-01
+VX= 6.435681646386838E-04 VY= 3.086895446025441E-03 VZ=-7.798992218576528E-05
+$$EOE
+*******************************************************************************
+Coordinate system description:
+
+Ecliptic and Mean Equinox of Reference Epoch
+
+Reference epoch: J2000.0
+XY-plane: plane of the Earth's orbit at the reference epoch
+Note: obliquity of 84381.448 arcseconds wrt ICRF equator (IAU76)
+X-axis  : out along ascending node of instantaneous plane of the Earth's
+orbit and the Earth's mean equator at the reference epoch
+Z-axis  : perpendicular to the xy-plane in the directional (+ or -) sense
+of Earth's north pole at the reference epoch.
+
+Symbol meaning [1 au= 149597870.700 km, 1 day= 86400.0 s]:
+
+JDTDB    Julian Day Number, Barycentric Dynamical Time
+X      X-component of position vector (au)
+Y      Y-component of position vector (au)
+Z      Z-component of position vector (au)
+VX     X-component of velocity vector (au/day)
+VY     Y-component of velocity vector (au/day)
+VZ     Z-component of velocity vector (au/day)
+
+Geometric states/elements have no aberrations applied.
+
+Computations by ...
+Solar System Dynamics Group, Horizons On-Line Ephemeris System
+4800 Oak Grove Drive, Jet Propulsion Laboratory
+Pasadena, CA  91109   USA
+Information: http://ssd.jpl.nasa.gov/
+Connect    : telnet://ssd.jpl.nasa.gov:6775  (via browser)
+http://ssd.jpl.nasa.gov/?horizons
+telnet ssd.jpl.nasa.gov 6775    (via command-line)
+Author     : Jon.D.Giorgini@jpl.nasa.gov
+*******************************************************************************

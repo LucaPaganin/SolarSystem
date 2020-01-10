@@ -1,39 +1,62 @@
 //
 //  main.cpp
-//  
+//
 //
 //  Created by Luca Paganin on 06/01/2020.
 //
 
-#include "Vettore3D.h"
-#include "Grave.h"
-#include "SistemaSolare.h"
+#include "Vector3D.h"
+#include "PointMass.h"
+#include "SolarSystem.h"
+#include <cstdlib>
 
-int main(){
+int main(int argc, const char* argv[]){
 	
-	std::ifstream input_file("input_file.h");
-	std::ofstream output_file("output.txt");
+	std::ofstream output_file("output/temporal_evolution.txt");
+	std::ofstream names_file("output/planets_names.txt");
 	
-	SistemaSolare system;
+	if (argc < 2) {
+		std::cout << "Usage: ./" << argv[0] << " initialconditions_file nsteps dt" << std::endl;
+		return 1;
+	}
+	
+	auto input_filename = argv[1];
+	int Nsteps = atoi(argv[2]);
+	float dt = atof(argv[3]);
+	
+	std::ifstream input_file(input_filename);
+	
+	SolarSystem system;
 	
 	system.ReadInitialConditions(input_file);
+	input_file.close();
 	
-	//system.print_system();
+	auto planets = system.Planets();
 	
-	int N = 1e5;
-	double dt=1e-5;
+	for (const auto &p: planets){
+		auto index = &p - &planets[0];
+		std::cout << p.Name() << " : " << std::endl;
+		std::cout <<  "Coordinates: (" << p.R() << "); Velocity: (" << p.V() << "); Mass = " << p.M() << std::endl;
+		names_file << p.Name() << " ";
+	}
+	names_file.close();
 	
-	for (int i=0; i<N; ++i){
-		if (i%100 == 0)
-			system.print_planets_coords(output_file);
+	int Nphotos = 500;
+	int M = (Nsteps%Nphotos==0) ? Nsteps/Nphotos : 100;
+	
+	for (unsigned i=0; i<Nsteps; ++i){
+		if (i%M==0)
+			system.PrintSystemCoords(output_file);
 		
 		system.EulerCromerStep(dt);
 	}
 	
-	
-	input_file.close();
+	/*
+	out_coords.close();
+	out_vels.close();
+	out_fields.close();
+	 */
 	output_file.close();
-	
 	
 	return 0;
 }

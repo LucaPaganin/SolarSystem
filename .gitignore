@@ -1,4 +1,19 @@
-##############
+###################
+### General Section
+
+.DS_Store
+*.xcodeproj*
+*.xcworkspace
+
+################################
+### Specific for this repository
+
+main
+output
+test
+
+
+##################
 ### Python Section
 
 # Byte-compiled / optimized / DLL files

@@ -1,0 +1,94 @@
+*******************************************************************************
+Revised: September 10, 2019           Uranus                               799
+
+PHYSICAL DATA (updated 2018-Aug-15):
+Mass x10^24 (kg)      = 86.813          Density (g/cm^3)       =  1.271
+Equat. radius (1 bar) = 25559+-4 km     Polar radius (km)      = 24973+-20
+Vol. Mean Radius (km) = 25362+-12       Flattening             =  0.02293
+Geometric Albedo      = 0.51
+Sid. rot. period (III)= 17.24+-0.01 h   Sid. rot. rate (rad/s) = -0.000101237
+Mean solar day, h     =~17.24           Rocky core mass (Mc/M) =  0.0012
+GM (km^3/s^2)         = 5793951.322     GM 1-sigma (km^3/s^2)  = +-4.3
+Equ. grav, ge (m/s^2) =  8.87           Pol. grav, gp (m/s^2)  =   9.19+-0.02
+Visual magnitude V(1,0)= -7.11
+Vis. mag. (opposition)=  +5.52          Obliquity to orbit     = 97.77 deg
+Sidereal orbit period = 84.0120465 y    Sidereal orbit period  = 30685.4 d
+Mean daily motion     = 0.01176904 dg/d Mean orbit velocity    =  6.8 km/s
+Atmos. temp. (1 bar)  =  76+-2 K        Escape speed, km/s     =  21.3
+Aroche(ice)/Rp        =  2.20           Hill's sphere rad., Rp = 2700
+Perihelion   Aphelion    Mean
+Solar Constant (W/m^2)         4.09         3.39        3.71
+Maximum Planetary IR (W/m^2)   0.72         0.55        0.63
+Minimum Planetary IR (W/m^2)   0.72         0.55        0.63
+*******************************************************************************
+
+
+
+
+*******************************************************************************
+Ephemeris / WWW_USER Wed Jan  8 12:43:20 2020 Pasadena, USA      / Horizons
+*******************************************************************************
+Target body name: Uranus (799)                    {source: ura111}
+Center body name: Solar System Barycenter (0)     {source: DE431mx}
+Center-site name: BODY CENTER
+*******************************************************************************
+Start time      : A.D. 2020-Jan-08 00:00:00.0000 TDB
+Stop  time      : A.D. 2020-Jan-09 00:00:00.0000 TDB
+Step-size       : 1440 minutes
+*******************************************************************************
+Center geodetic : 0.00000000,0.00000000,0.0000000 {E-lon(deg),Lat(deg),Alt(km)}
+Center cylindric: 0.00000000,0.00000000,0.0000000 {E-lon(deg),Dxy(km),Dz(km)}
+Center radii    : (undefined)
+Output units    : AU-D
+Output type     : GEOMETRIC cartesian states
+Output format   : 2 (position and velocity)
+Reference frame : ICRF/J2000.0
+Coordinate systm: Ecliptic and Mean Equinox of Reference Epoch
+*******************************************************************************
+JDTDB
+X     Y     Z
+VX    VY    VZ
+*******************************************************************************
+$$SOE
+2458856.500000000 = A.D. 2020-Jan-08 00:00:00.0000 TDB
+X = 1.620566358636939E+01 Y = 1.140771629700922E+01 Z =-1.675778077746926E-01
+VX=-2.292816256332509E-03 VY= 3.032865898649047E-03 VZ= 4.098094662114293E-05
+2458857.500000000 = A.D. 2020-Jan-09 00:00:00.0000 TDB
+X = 1.620337046888149E+01 Y = 1.141074893747933E+01 Z =-1.675368710274621E-01
+VX=-2.293455504550833E-03 VY= 3.032423757217086E-03 VZ= 4.089617835670143E-05
+$$EOE
+*******************************************************************************
+Coordinate system description:
+
+Ecliptic and Mean Equinox of Reference Epoch
+
+Reference epoch: J2000.0
+XY-plane: plane of the Earth's orbit at the reference epoch
+Note: obliquity of 84381.448 arcseconds wrt ICRF equator (IAU76)
+X-axis  : out along ascending node of instantaneous plane of the Earth's
+orbit and the Earth's mean equator at the reference epoch
+Z-axis  : perpendicular to the xy-plane in the directional (+ or -) sense
+of Earth's north pole at the reference epoch.
+
+Symbol meaning [1 au= 149597870.700 km, 1 day= 86400.0 s]:
+
+JDTDB    Julian Day Number, Barycentric Dynamical Time
+X      X-component of position vector (au)
+Y      Y-component of position vector (au)
+Z      Z-component of position vector (au)
+VX     X-component of velocity vector (au/day)
+VY     Y-component of velocity vector (au/day)
+VZ     Z-component of velocity vector (au/day)
+
+Geometric states/elements have no aberrations applied.
+
+Computations by ...
+Solar System Dynamics Group, Horizons On-Line Ephemeris System
+4800 Oak Grove Drive, Jet Propulsion Laboratory
+Pasadena, CA  91109   USA
+Information: http://ssd.jpl.nasa.gov/
+Connect    : telnet://ssd.jpl.nasa.gov:6775  (via browser)
+http://ssd.jpl.nasa.gov/?horizons
+telnet ssd.jpl.nasa.gov 6775    (via command-line)
+Author     : Jon.D.Giorgini@jpl.nasa.gov
+*******************************************************************************
