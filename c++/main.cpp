@@ -16,13 +16,15 @@ int main(int argc, const char* argv[]){
 	std::ofstream names_file("output/planets_names.txt");
 	
 	if (argc < 2) {
-		std::cout << "Usage: ./" << argv[0] << " initialconditions_file nsteps dt" << std::endl;
+		std::cout << "Usage: ./" << argv[0] << " initialconditions_file n_days dt" << std::endl;
 		return 1;
 	}
 	
 	auto input_filename = argv[1];
-	int Nsteps = atoi(argv[2]);
-	float dt = atof(argv[3]);
+	auto n_days = atof(argv[2]);
+	auto dt = atof(argv[3]);
+	
+	int Nsteps = n_days/dt;
 	
 	std::ifstream input_file(input_filename);
 	

@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import json
 
+
 data_filename = "temporal_evolution.txt"
 names_filename = "planets_names.txt"
 
@@ -32,7 +33,7 @@ colors = matplotlib.cm.rainbow(np.linspace(0, 1, n_planets))
 
 fig = plt.figure(figsize=(10,6))
 
-for pc, c, name in zip(planet_coords, colors, names):
+for pc, c, name in zip(planet_coords[0:1], colors[0:1], names[0:1]):
     plt.scatter(pc[:,0], pc[:,1], color = c, label = name)
 
 plt.xlabel("x [A.U.]")
