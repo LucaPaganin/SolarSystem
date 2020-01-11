@@ -19,7 +19,7 @@ void PointMass::V(const Vector3D& v){m_V = v;}
 
 double PointMass::M() const {return m_M;}
 
-Vector3D PointMass::ComputeGravitationalField(const Vector3D& r){
+Vector3D PointMass::ComputeGravitationalField(const Vector3D& r) const{
 
 	Vector3D rel_pos = r - m_R;
 	Vector3D field(0,0,0);
@@ -28,8 +28,11 @@ Vector3D PointMass::ComputeGravitationalField(const Vector3D& r){
 		std::cout << "Error, can't evaluate gravitational field of point source into source position." << std::endl;
 	}
 	else{
-		field = -(G*m_M/(std::pow(rel_pos.mod(), 3)))*(rel_pos);
+		field = -((Constants::G * m_M)/(std::pow(rel_pos.mod(), 3)))*(rel_pos);
 	}
 	return field;
 }
 
+Vector3D PointMass::AngularMomentum() const{return m_R.cross(m_M * m_V);}
+
+double PointMass::KineticEnergy() const{return (0.5 * m_M * (m_V * m_V));}

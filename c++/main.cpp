@@ -27,11 +27,16 @@ int main(int argc, const char* argv[]){
 	system.ReadInitialConditions(input_file);
 	input_file.close();
 	
+	//Set ODE solution method
+	system.Method("EulerCromer");
+	
 	//get planets
 	auto planets = system.Planets();
 	
 	//Open output file
 	std::ofstream output_file("output/temporal_evolution.txt");
+	std::ofstream output_E("output/energy.txt");
+	std::ofstream output_L("output/L.txt");
 	
 	//Print first line as a comment
 	output_file << "#";
@@ -48,13 +53,18 @@ int main(int argc, const char* argv[]){
 	int M = (Nsteps%Nphotos==0) ? Nsteps/Nphotos : 100;
 	
 	for (unsigned i=0; i<Nsteps; ++i){
-		if (i%M==0)
+		if (i%M==0){
 			system.PrintSystemCoords(output_file);
+			output_E << system.TotalEnergy() << std::endl;
+			output_L << system.TotalAngularMomentum() << std::endl;
+		}
 		
-		system.EulerCromerStep(dt);
+		system.TimeStep(dt);
 	}
 	
 	output_file.close();
+	output_E.close();
+	output_L.close();
 	
 	return 0;
 }

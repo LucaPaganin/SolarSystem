@@ -8,7 +8,7 @@
 #ifndef PointMass_H
 #define PointMass_H
 
-#define G 2.95905e-4
+//#define G 2.95905e-4
 
 
 /*
@@ -27,6 +27,7 @@
 #include <vector>
 #include <string>
 #include "Vector3D.h"
+#include "Constants.h"
 
 class PointMass{
 public:
@@ -56,7 +57,9 @@ public:
 	void V(const Vector3D&);
 	double M() const;
 
-	Vector3D ComputeGravitationalField(const Vector3D&);
+	Vector3D ComputeGravitationalField(const Vector3D&) const;
+	Vector3D AngularMomentum() const;
+	double KineticEnergy() const;
 
 
 private:

@@ -40,8 +40,8 @@ public:
 	Vector3D operator=(const Vector3D&);
 	bool operator==(const Vector3D&);
 	bool operator!=(const Vector3D&);
-	Vector3D cross(const Vector3D&);
-	double operator*(const Vector3D&);
+	Vector3D cross(const Vector3D&) const;
+	double operator*(const Vector3D&) const;
 	
 	//friends
 	friend std::ostream& operator<<(std::ostream&, const Vector3D&);
