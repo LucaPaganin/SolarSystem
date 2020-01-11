@@ -42,8 +42,6 @@ public:
 	
 	void ComputeGravitationalForces();
 	void TimeStep(double);
-	void EulerCromerStep(double);
-	void VerletVelocity(double);
 	
 	Vector3D TotalAngularMomentum() const;
 	double TotalEnergy() const;

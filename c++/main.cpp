@@ -12,8 +12,8 @@
 
 int main(int argc, const char* argv[]){
 	
-	if (argc < 2) {
-		std::cout << "Usage: ./" << argv[0] << " input_filename n_days dt" << std::endl;
+	if (argc != 4) {
+		std::cout << "Error: too many or too few parameters. Usage is: " << argv[0] << " input_filename n_days dt" << std::endl;
 		return 1;
 	}
 	
@@ -28,7 +28,7 @@ int main(int argc, const char* argv[]){
 	input_file.close();
 	
 	//Set ODE solution method
-	system.Method("EulerCromer");
+	system.Method("VerletVelocity");
 	
 	//get planets
 	auto planets = system.Planets();

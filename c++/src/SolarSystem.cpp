@@ -38,33 +38,40 @@ void SolarSystem::TimeStep(double dt){
 	
 	if (m_odemethod=="EulerCromer") {
 		
+		//Update coordinates
 		for(int i=0; i<m_planets.size(); ++i){
 			m_planets[i].R((m_planets[i].R() + dt*m_planets[i].V()));
 		}
 		
-		ComputeGravitationalForces();
+		//Update forces
+		this->ComputeGravitationalForces();
 		
+		//Update velocities
 		for(int i=0; i<m_planets.size(); ++i){
-			m_planets[i].V((m_planets[i].V() + (dt/m_planets[i].M()) * m_forces[i]));
+			m_planets[i].V((m_planets[i].V()
+							+ (dt/m_planets[i].M()) * m_forces[i]));
 		}
 	}
 	
 	else if (m_odemethod=="VerletVelocity"){
+		auto old_forces = m_forces;
 		
-	}
-	
-}
-
-void SolarSystem::EulerCromerStep(double dt){
-	
-	for(int i=0; i<m_planets.size(); ++i){
-		m_planets[i].R((m_planets[i].R() + dt*m_planets[i].V()));
-	}
-	
-	ComputeGravitationalForces();
-	
-	for(int i=0; i<m_planets.size(); ++i){
-		m_planets[i].V((m_planets[i].V() + (dt/m_planets[i].M()) * m_forces[i]));
+		//Update coordinates
+		for (unsigned i=0; i<m_planets.size(); ++i) {
+			auto dR = dt * m_planets[i].V()
+			+ 0.5 * ((dt * dt)/m_planets[i].M()) * m_forces[i];
+			
+			m_planets[i].R(m_planets[i].R() + dR);
+		}
+		
+		//Compute new forces
+		this->ComputeGravitationalForces();
+		
+		//Update velocities
+		for (unsigned i=0; i<m_planets.size(); ++i) {
+			auto dV = (0.5 * dt / m_planets[i].M()) * (old_forces[i] + m_forces[i]);
+			m_planets[i].V(m_planets[i].V() + dV);
+		}
 	}
 	
 }
