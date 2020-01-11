@@ -37,7 +37,8 @@ public:
 	void ReadInitialConditions(std::istream&);
 	void PrintSystemCoords(std::ostream&);
 	void print_planets_coords(std::ostream&);
-	void print_system();
+	
+	std::vector<Vector3D> ComputeGravitationalForces();
 	
 	void EulerCromerStep(double);
 	

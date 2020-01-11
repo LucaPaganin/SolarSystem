@@ -56,8 +56,7 @@ public:
 	void V(const Vector3D&);
 	double M() const;
 
-	Vector3D GravitationalField(const PointMass&);
-	Vector3D GravitationalField(const std::vector<PointMass> &);
+	Vector3D ComputeGravitationalField(const Vector3D&);
 
 
 private:

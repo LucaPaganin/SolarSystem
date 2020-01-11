@@ -37,23 +37,37 @@ void SolarSystem::PrintSystemCoords(std::ostream& os){
 	os << std::endl;
 }
 
-void SolarSystem::print_system(){
-	for (const auto &p : m_planets) {
-		std::cout << "r = " << p.R() << std::endl;
-		std::cout << "v = " << p.V() << std::endl;
-		std::cout << "m = " << p.M() << std::endl << std::endl;
-	}
-}
-
 void SolarSystem::EulerCromerStep(double dt){
 	
 	for(int i=0; i<m_planets.size(); ++i){
 		m_planets[i].R((m_planets[i].R() + dt*m_planets[i].V()));
-		
-		Vector3D field = m_planets[i].GravitationalField(m_planets);
-		
-		m_planets[i].V((m_planets[i].V() + dt * field));
 	}
+	
+	auto forces = ComputeGravitationalForces();
+	
+	for(int i=0; i<m_planets.size(); ++i){
+		m_planets[i].V((m_planets[i].V() + (dt/m_planets[i].M()) * forces[i]));
+	}
+	
+}
+
+std::vector<Vector3D> SolarSystem::ComputeGravitationalForces(){
+	
+	std::vector<Vector3D> forces(m_planets.size(), Vector3D(0,0,0));
+	
+	for (int i=0; i<m_planets.size(); i++) {
+		for (int j=i+1; j<m_planets.size(); j++){
+			
+			auto fij = m_planets[i].M()*m_planets[j].ComputeGravitationalField(m_planets[i].R());
+			
+			//Add fij to fi, where fij is the force of j on i
+			forces[i] += fij;
+			//Add -fij to fj, for Newton third principle
+			forces[j] -= fij;
+		}
+	}
+	
+	return forces;
 	
 }
 

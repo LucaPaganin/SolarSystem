@@ -44,7 +44,6 @@ def load_from_file(filepath=None):
 
     return solar_system
 
-
 #Parameters parsing
 parser = argparse.ArgumentParser()
 parser.add_argument("-f", "--filename", required=False, default="temporal_evolution.txt" , help="The name of the file containing time evolution data.")
