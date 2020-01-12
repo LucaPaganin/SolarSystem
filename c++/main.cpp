@@ -12,14 +12,43 @@
 
 int main(int argc, const char* argv[]){
 	
-	if (argc != 4) {
-		std::cout << "Error: too many or too few parameters. Usage is: " << argv[0] << " input_filename n_days dt" << std::endl;
+	auto input_path = "effemeridi.txt";
+	auto ndays = 365;
+	auto dt = 0.1;
+	auto Nphotos = 500;
+	
+	//Error message if argc > 5
+	if (argc > 4) {
+		std::cout << "Too many parameters. Usage is: " << argv[0];
+		std::cout << " input_filename (default " << input_path << ")";
+		std::cout << " n_days (default " << ndays << ")";
+		std::cout << " dt (default " << dt << ")";
+		std::cout << " Nphotos (default " << Nphotos << ")";
+		//std::cout << std::endl;
 		return 1;
 	}
 	
-	auto input_path = std::string(argv[1]);
-	auto n_days = atof(argv[2]);
-	auto dt = atof(argv[3]);
+	//Assign the given values to the parameters
+	
+	switch (argc) {
+		case 1:
+			break;
+		case 2:
+			input_path = argv[1];
+			break;
+		case 3:
+			input_path = argv[1];
+			ndays = atoi(argv[2]);
+			break;
+		case 4:
+			input_path = argv[1];
+			ndays = atoi(argv[2]);
+			dt = atof(argv[3]);
+			break;
+			
+		default:
+			break;
+	}
 	
 	//Read initial conditions
 	std::ifstream input_file(input_path);
@@ -48,9 +77,8 @@ int main(int argc, const char* argv[]){
 	output_file << std::endl;
 	
 	//Do time evolution
-	int Nsteps = n_days/dt;
-	int Nphotos = 500;
-	int M = (Nsteps%Nphotos==0) ? Nsteps/Nphotos : 100;
+	int Nsteps = ndays/dt;
+	int M = (Nsteps>Nphotos)? Nsteps/Nphotos : 100;
 	
 	for (unsigned i=0; i<Nsteps; ++i){
 		if (i%M==0){

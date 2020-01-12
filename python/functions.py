@@ -93,13 +93,13 @@ def get_animation_interval(data, duration):
 
 def solar_system_colormap(name):
 
-    color_map = {"Sun": "yellow",
+    color_map = {"Sun": "gold",
                  "Mercury": "grey",
                  "Venus": "green",
                  "Earth": "lightblue",
                  "Mars": "red",
                  "Jupiter": "orange",
-                 "Saturn":"beige",
+                 "Saturn": "purple",
                  "Uranus":"cyan",
                  "Neptune": "blue",
                  "Pluto": "brown"}
