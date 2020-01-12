@@ -17,30 +17,34 @@
 class SolarSystem{
 private:
 	std::vector<PointMass> m_planets;
+	std::vector<Vector3D> m_forces;
 	std::string m_odemethod;
 public:
 	
 	SolarSystem(const std::vector<PointMass>& pns, const std::string& method):
 	m_planets(pns),
+	m_forces(std::vector<Vector3D>(pns.size())),
 	m_odemethod(method)
 	{
 	}
 	
 	SolarSystem():
 	m_planets(std::vector<PointMass>(0)),
+	m_forces(std::vector<Vector3D>(0)),
 	m_odemethod("")
 	{
 	}
 	
 	std::vector<PointMass> Planets() const;
-	
+	void Method(std::string);
 	void ReadInitialConditions(std::istream&);
 	void PrintSystemCoords(std::ostream&);
-	void print_planets_coords(std::ostream&);
-	void print_system();
 	
-	void EulerCromerStep(double);
+	void ComputeGravitationalForces();
+	void TimeStep(double);
 	
+	Vector3D TotalAngularMomentum() const;
+	double TotalEnergy() const;
 	
 	
 };

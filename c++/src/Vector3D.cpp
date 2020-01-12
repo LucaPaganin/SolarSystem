@@ -49,7 +49,7 @@ Vector3D Vector3D::operator+=(const Vector3D& v){
 	return *this;
 }
 
-Vector3D Vector3D::operator-(const Vector3D& v){
+Vector3D Vector3D::operator-(const Vector3D& v) const{
 	return Vector3D(this->m_v[0]-v.m_v[0], this->m_v[1]-v.m_v[1], this->m_v[2]-v.m_v[2]);
 }
 
@@ -76,13 +76,13 @@ bool Vector3D::operator!=(const Vector3D& v){
 	return !(*(this) == v);
 }
 
-Vector3D Vector3D::cross(const Vector3D& v){
+Vector3D Vector3D::cross(const Vector3D& v) const{
 	return Vector3D(this->m_v[1] * v.m_v[2] - this->m_v[2] * v.m_v[1],
 					 this->m_v[2] * v.m_v[0] - this->m_v[0] * v.m_v[2],
 					 this->m_v[0] * v.m_v[1] - this->m_v[1] * v.m_v[0]);
 }
 
-double Vector3D::operator*(const Vector3D& v){
+double Vector3D::operator*(const Vector3D& v) const{
 	return (this->m_v[0]*v.m_v[0] + this->m_v[1]*v.m_v[1] + this->m_v[2]*v.m_v[2]);
 }
 
