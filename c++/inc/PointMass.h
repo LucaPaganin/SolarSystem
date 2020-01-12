@@ -57,9 +57,11 @@ public:
 	void V(const Vector3D&);
 	double M() const;
 
-	Vector3D ComputeGravitationalField(const Vector3D&) const;
+	virtual Vector3D ComputeGravitationalField(const Vector3D&) const;
 	Vector3D AngularMomentum() const;
 	double KineticEnergy() const;
+	
+	virtual ~PointMass() = default;
 
 
 private:

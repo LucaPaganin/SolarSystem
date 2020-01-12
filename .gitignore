@@ -11,6 +11,8 @@
 main
 output
 test
+*.gif
+*.pdf
 
 
 ##################
