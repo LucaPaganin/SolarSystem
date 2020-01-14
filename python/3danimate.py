@@ -11,16 +11,14 @@ import argparse
 
 #Parameters parsing
 parser = argparse.ArgumentParser()
-parser.add_argument("-f", "--filename", required=False, default="temporal_evolution.txt" , help="The name of the file containing time evolution data.")
+parser.add_argument("-f", "--filepath", required=True, help="The name of the file containing time evolution data.")
 parser.add_argument("-p", "--planets", nargs="+", default=None, help="The list of the planets to be plotted.")
 args = parser.parse_args()
 
-filename = args.filename
+filepath = Path(args.filepath)
 planets = args.planets
 
 #Setting up paths and load data into dictionary of numpy arrays
-cwd = Path().resolve()
-filepath = cwd.parent.joinpath("c++", "output", filename)
 solar_system = fnc.load_from_file(filepath=filepath)
 
 if planets is None:
