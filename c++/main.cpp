@@ -84,18 +84,20 @@ int main(int argc, const char* argv[]){
 
 	//Do time evolution
 	int Nsteps = ndays/dt;
-	int Nphotos = ndays/sampling_step;
+	int Nsamples = ndays/sampling_step;
 
-	if( Nphotos > 5000 || Nphotos > Nsteps ){
-		std::cout << "Error: maximum sampling exceeded." << std::endl;
+	if( Nsamples > 5000 || Nsamples > Nsteps ){
+		std::cout << "Error: maximum sampling exceeded. Reduce simulation time or increase sampling step" << std::endl;
 		return 1;
 	}
 
-	int M = Nsteps/Nphotos;
+	int M = Nsteps/Nsamples;
 
-	std::cout << "Nphotos = " << Nphotos << std::endl;
+	std::cout << "Nsamples = " << Nsamples << std::endl;
 	std::cout << "Nsteps = " << Nsteps << std::endl;
-	std::cout << "M = " << M << std::endl;
+	std::cout << "M = Nsteps/Nsamples = " << M << std::endl;
+	std::cout << "A photo of the system will be taken every " << M << " steps." << std::endl;
+	std::cout << "Starting simulation..." << std::endl;
 
 	for (unsigned i=0; i<Nsteps; ++i){
 		if (i%M==0){
@@ -106,6 +108,8 @@ int main(int argc, const char* argv[]){
 
 		system.TimeStep(dt);
 	}
+	
+	std::cout << "Done." << std::endl;
 
 	output_file.close();
 	output_E.close();
