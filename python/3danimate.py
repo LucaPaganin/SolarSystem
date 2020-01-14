@@ -10,9 +10,13 @@ import functions as fnc
 import argparse
 
 #Parameters parsing
-parser = argparse.ArgumentParser()
-parser.add_argument("-f", "--filepath", required=True, help="The name of the file containing time evolution data.")
+parser = argparse.ArgumentParser(description="A python script to animate the planets motion starting from a txt file containing the simulated data.",
+                                 formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+
+parser.add_argument("-f", "--filepath", required=False, default="../c++/output/temporal_evolution.txt", help="The name of the file containing time evolution data.")
+
 parser.add_argument("-p", "--planets", nargs="+", default=None, help="The list of the planets to be plotted.")
+
 args = parser.parse_args()
 
 filepath = Path(args.filepath)
