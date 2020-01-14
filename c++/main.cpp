@@ -21,8 +21,8 @@ int main(int argc, const char* argv[]){
 	if (argc > 5) {
 		std::cout << "Too many parameters. Usage is: " << argv[0];
 		std::cout << " input_filename (default " << input_path << ")";
-		std::cout << " n_days (default " << ndays << ")";
-		std::cout << " dt (default " << dt << ")";
+		std::cout << " simulation_timespan (default " << ndays << ")";
+		std::cout << " timestep (default " << dt << ")";
 		std::cout << " sampling_step (default " << sampling_step << ")";
 		std::cout << std::endl;
 		return 1;
@@ -55,6 +55,13 @@ int main(int argc, const char* argv[]){
 		default:
 			break;
 	}
+
+	//Print info messages with the simulation parameters:
+
+	std::cout << "Input file with initial conditions: " << input_path << std::endl;
+	std::cout << "Simulation timespan: " << ndays << " terrestrial days" << std::endl;
+	std::cout << "Simulation timestep: " << dt << " terrestrial days" << std::endl;
+	std::cout << "Simulation sampling timestep: " << sampling_step << " terrestrial days" << std::endl;
 
 	//Read initial conditions
 	std::ifstream input_file(input_path);
@@ -108,7 +115,7 @@ int main(int argc, const char* argv[]){
 
 		system.TimeStep(dt);
 	}
-	
+
 	std::cout << "Done." << std::endl;
 
 	output_file.close();
