@@ -1,4 +1,5 @@
 from matplotlib import pyplot as plt
+import matplotlib
 import numpy as np
 import mpl_toolkits.mplot3d.axes3d as p3
 from matplotlib import animation
@@ -10,16 +11,14 @@ import argparse
 
 #Parameters parsing
 parser = argparse.ArgumentParser()
-parser.add_argument("-f", "--filename", required=False, default="temporal_evolution.txt" , help="The name of the file containing time evolution data.")
+parser.add_argument("-f", "--filepath", required=True, help="The name of the file containing time evolution data.")
 parser.add_argument("-p", "--planets", nargs="+", default=None, help="The list of the planets to be plotted.")
 args = parser.parse_args()
 
-filename = args.filename
+filepath = Path(args.filepath)
 planets = args.planets
 
 #Setting up paths and load data into dictionary of numpy arrays
-cwd = Path().resolve()
-filepath = cwd.parent.joinpath("c++", "output", filename)
 solar_system = fnc.load_from_file(filepath=filepath)
 
 if planets is None:
@@ -42,12 +41,16 @@ planets_data = [solar_system[k] for k in planets]
 fig = plt.figure()
 ax = p3.Axes3D(fig)
 
+colors = matplotlib.cm.rainbow(np.linspace(0, 1, len(planets)))
+
 lines = []
-for p in planets:
+for p,c in zip(planets, colors):
     line, = ax.plot(solar_system[p][0, 0:1],
                     solar_system[p][1, 0:1],
                     solar_system[p][2, 0:1],
-                    label=p, markersize=5, marker='o', color=fnc.solar_system_colormap(p))
+                    label=p, markersize=5,
+                    marker='o',
+                    color=c)
     lines.append(line)
 
 
@@ -69,5 +72,5 @@ ani = animation.FuncAnimation(fig,
                               fargs=(planets_data, lines),
                               interval=fnc.get_animation_interval(planets_data[0], 5),
                               blit=False)
-#ani.save('matplot003.gif', writer='imagemagick')
+#ani.save('animation.gif')
 plt.show()
