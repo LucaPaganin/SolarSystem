@@ -19,9 +19,9 @@ The units of measure with respect to which each quantity MUST be expressed are:
 * Solar Masses for the Mass;
 * Terrestrial Days for the Time.
 
-Exercise: in which units will be expressed the velocity with this choice? Which value will have the Gravitational constant G, which in the International System of units is
+Exercise: in which units will be expressed the velocity with this choice? Which value will have the Gravitational constant G? G in the International System of units has the value
 
-G = 6.67408 x 10^-11 m^3 kg^-1 s^-2
+G = 6.67408 x 10^-11 N m^2 kg^-2
 
 In order to start using the code download this folder clicking on the green button saying "Download as ZIP", extract the content and move it to your home directory; the extracted content should be a directory named like "SolarSystem-master". Then open a terminal and type the following command
 
