@@ -39,7 +39,7 @@ void SolarSystem::TimeStep(double dt){
 	if (m_odemethod=="EulerCromer") {
 		
 		//Update coordinates
-		for(int i=0; i<m_planets.size(); ++i){
+		for(unsigned i=0; i<m_planets.size(); ++i){
 			m_planets[i].R((m_planets[i].R() + dt*m_planets[i].V()));
 		}
 		
@@ -47,7 +47,7 @@ void SolarSystem::TimeStep(double dt){
 		this->ComputeGravitationalForces();
 		
 		//Update velocities
-		for(int i=0; i<m_planets.size(); ++i){
+		for(unsigned i=0; i<m_planets.size(); ++i){
 			m_planets[i].V((m_planets[i].V()
 							+ (dt/m_planets[i].M()) * m_forces[i]));
 		}

@@ -106,7 +106,7 @@ int main(int argc, const char* argv[]){
 	std::cout << "A photo of the system will be taken every " << M << " steps." << std::endl;
 	std::cout << "Starting simulation..." << std::endl;
 
-	for (unsigned i=0; i<Nsteps; ++i){
+	for (int i=0; i<Nsteps; ++i){
 		if (i%M==0){
 			system.PrintSystemCoords(output_file);
 			output_E << system.TotalEnergy() << std::endl;
