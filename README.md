@@ -119,3 +119,5 @@ Where:
 * `timespan` is the simulation time in terrestrial days
 * `timestep` is the simulation time step in terrestrial days (detail for the solution of the differential equation)
 * `sampling_timestep` is the time elapsing between two subsequent photographs of the SolarSystem, i.e. how many terrestrial days elapse between a given frame and the next one in the animation.
+
+The parameters should be given exactly in this order, otherwise the program will fail.
