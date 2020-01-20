@@ -43,11 +43,6 @@ datafile_path = cwd.parent / "c++" / "output" / data_filename
 
 times, energies = get_energies_vs_time(datafile_path)
 
-total_energy = np.zeros(times.shape[0])
-
-for e in energies.values():
-    total_energy += e
-"""
 if not all([p in energies.keys() for p in planets]):
     print(f"Error: some planets you entered are not present in the data file {datafile_path}")
     quit()
@@ -60,8 +55,6 @@ fig = plt.figure(figsize=(10,6))
 for p in planets:
     plt.plot(times, energies[p], label=p)
 
-"""
-plt.plot(times, total_energy)
 
 plt.legend(loc="lower left")
 plt.show()

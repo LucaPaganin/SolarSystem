@@ -104,9 +104,9 @@ std::vector<double> SolarSystem::ComputeEnergies() const{
 		energies[i] += m_planets[i].KineticEnergy();
 		
 		for (unsigned j=i+1; j<m_planets.size(); ++j) {
-			double Vij = m_planets[i].M() * m_planets[j].ComputeGravitationalPotential(m_planets[i].R());
-			energies[i] += Vij;
-			energies[j] += Vij;
+			double Uij = m_planets[i].M() * m_planets[j].ComputeGravitationalPotential(m_planets[i].R());
+			energies[i] += Uij;
+			energies[j] += Uij;
 		}
 	}
 	
