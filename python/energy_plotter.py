@@ -43,6 +43,11 @@ datafile_path = cwd.parent / "c++" / "output" / data_filename
 
 times, energies = get_energies_vs_time(datafile_path)
 
+if planets is None:
+    print("You can choose between these planets:")
+    print(energies.keys())
+    quit()
+
 if not all([p in energies.keys() for p in planets]):
     print(f"Error: some planets you entered are not present in the data file {datafile_path}")
     quit()
