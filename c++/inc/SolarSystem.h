@@ -45,7 +45,7 @@ public:
 	
 	Vector3D TotalAngularMomentum() const;
 	double TotalEnergy() const;
-	
+	std::vector<double> ComputeEnergies() const;
 	
 };
 

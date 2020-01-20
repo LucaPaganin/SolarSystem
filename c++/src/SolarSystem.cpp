@@ -96,6 +96,24 @@ void SolarSystem::ComputeGravitationalForces(){
 	}
 }
 
+std::vector<double> SolarSystem::ComputeEnergies() const{
+	
+	std::vector<double> energies(m_planets.size(), 0.0);
+	
+	for (unsigned i=0; i<m_planets.size(); ++i){
+		energies[i] += m_planets[i].KineticEnergy();
+		
+		for (unsigned j=i+1; j<m_planets.size(); ++j) {
+			double Vij = m_planets[i].M() * m_planets[j].ComputeGravitationalPotential(m_planets[i].R());
+			energies[i] += Vij;
+			energies[j] += Vij;
+		}
+	}
+	
+	return energies;
+	
+}
+
 Vector3D SolarSystem::TotalAngularMomentum() const{
 	Vector3D Ltot(0,0,0);
 	

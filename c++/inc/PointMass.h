@@ -44,6 +44,7 @@ public:
 	double M() const;
 
 	virtual Vector3D ComputeGravitationalField(const Vector3D&) const;
+	virtual double ComputeGravitationalPotential(const Vector3D&) const;
 	Vector3D AngularMomentum() const;
 	double KineticEnergy() const;
 	
