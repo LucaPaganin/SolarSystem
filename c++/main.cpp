@@ -77,17 +77,21 @@ int main(int argc, const char* argv[]){
 
 	//Open output file
 	std::ofstream output_file("output/temporal_evolution.txt");
-	std::ofstream output_E("output/energy.txt");
-	std::ofstream output_L("output/L.txt");
+	std::ofstream output_E("output/Total_Energy.txt");
+	std::ofstream output_L("output/Total_L.txt");
+	std::ofstream output_energies("output/Single_Energies.txt");
 
 	//Print first line as a comment
 	output_file << "#";
+	output_energies << "#";
 
 	//Print planets names
 	for (const auto &p: planets){
 		output_file << p.Name() << " ";
+		output_energies << p.Name() << " ";
 	}
 	output_file << std::endl;
+	output_energies << std::endl;
 
 	//Do time evolution
 	int Nsteps = ndays/dt;
@@ -108,9 +112,16 @@ int main(int argc, const char* argv[]){
 
 	for (int i=0; i<Nsteps; ++i){
 		if (i%M==0){
+			auto my_planets = system.Planets();
+			auto energies = system.ComputeEnergies();
 			system.PrintSystemCoords(output_file);
-			output_E << system.TotalEnergy() << std::endl;
-			output_L << system.TotalAngularMomentum() << std::endl;
+			output_E << i*dt << " " << system.TotalEnergy() << std::endl;
+			output_L << i*dt << " " << system.TotalAngularMomentum().mod() << std::endl;
+			output_energies << i*dt << " ";
+			for (const auto &e: energies){
+				output_energies << e << " ";
+			}
+			output_energies << std::endl;
 		}
 
 		system.TimeStep(dt);
@@ -121,6 +132,7 @@ int main(int argc, const char* argv[]){
 	output_file.close();
 	output_E.close();
 	output_L.close();
+	output_energies.close();
 
 	return 0;
 }

@@ -8,20 +8,6 @@
 #ifndef PointMass_H
 #define PointMass_H
 
-//#define G 2.95905e-4
-
-
-/*
- Units:
-
- Length: A.U. --> 1 A.U. = 1.5e11 m
- Mass: Solar Masses --> 1 M_Sun = 1.989e30 kg
- Time: Days --> 1 d = 86400 s
-
- G = 2.95905e-4 A.U.^3 M_Sun^-1 d^-2
-
- */
-
 #include <iostream>
 #include <cmath>
 #include <vector>
@@ -58,13 +44,14 @@ public:
 	double M() const;
 
 	virtual Vector3D ComputeGravitationalField(const Vector3D&) const;
+	virtual double ComputeGravitationalPotential(const Vector3D&) const;
 	Vector3D AngularMomentum() const;
 	double KineticEnergy() const;
 	
 	virtual ~PointMass() = default;
 
 
-private:
+protected:
 	Vector3D m_R, m_V;
 	double m_M;
 	std::string m_name;

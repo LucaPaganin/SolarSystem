@@ -107,3 +107,17 @@ python3 3danimate.py -p Sun Earth Mars
 ```
 
 You should see a 3D animation with the Earth and Mars orbiting around the Sun (do not pay attention to the colors...).
+
+Now to do something different you have to change the input you give to the program `main`. The usage of this program is the following:
+
+```
+./main inputfile timespan timestep sampling_timestep
+```
+
+Where:
+* `inputfile` is the name of the input file with the initial conditions (in the format specified above)
+* `timespan` is the simulation time in terrestrial days
+* `timestep` is the simulation time step in terrestrial days (detail for the solution of the differential equation)
+* `sampling_timestep` is the time elapsing between two subsequent photographs of the SolarSystem, i.e. how many terrestrial days elapse between a given frame and the next one in the animation.
+
+The parameters should be given exactly in this order, otherwise the program will fail.
