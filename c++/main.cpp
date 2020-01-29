@@ -80,15 +80,18 @@ int main(int argc, const char* argv[]){
 	std::ofstream output_E("output/Total_Energy.txt");
 	std::ofstream output_L("output/Total_L.txt");
 	std::ofstream output_energies("output/Single_Energies.txt");
+	std::ofstream output_Ls("output/Single_AngularMomenta.txt");
 
 	//Print first line as a comment
 	output_file << "#";
 	output_energies << "#";
+	output_Ls << "#";
 
 	//Print planets names
 	for (const auto &p: planets){
 		output_file << p.Name() << " ";
 		output_energies << p.Name() << " ";
+		output_Ls << p.Name() << " ";
 	}
 	output_file << std::endl;
 	output_energies << std::endl;
@@ -118,10 +121,15 @@ int main(int argc, const char* argv[]){
 			output_E << i*dt << " " << system.TotalEnergy() << std::endl;
 			output_L << i*dt << " " << system.TotalAngularMomentum().mod() << std::endl;
 			output_energies << i*dt << " ";
+			output_Ls << i*dt << " ";
 			for (const auto &e: energies){
 				output_energies << e << " ";
 			}
 			output_energies << std::endl;
+			for (const auto &p: my_planets){
+				output_Ls << p.AngularMomentum() << " ";
+			}
+			output_Ls << std::endl;
 		}
 
 		system.TimeStep(dt);
@@ -133,6 +141,7 @@ int main(int argc, const char* argv[]){
 	output_E.close();
 	output_L.close();
 	output_energies.close();
+	output_Ls.close();
 
 	return 0;
 }
