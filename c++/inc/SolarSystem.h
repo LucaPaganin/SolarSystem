@@ -40,6 +40,7 @@ public:
 	void ReadInitialConditions(std::istream&);
 	void PrintSystemCoords(std::ostream&);
 	
+	
 	void ComputeGravitationalForces();
 	void TimeStep(double);
 	
