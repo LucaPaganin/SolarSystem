@@ -78,7 +78,7 @@ int main(int argc, const char* argv[]){
 	//Open output file
 	std::ofstream output_file("output/temporal_evolution.txt");
 	std::ofstream output_E("output/Total_Energy.txt");
-	std::ofstream output_L("output/Total_L.txt");
+	std::ofstream output_L("output/Total_AngularMomentum.txt");
 	std::ofstream output_energies("output/Single_Energies.txt");
 	std::ofstream output_Ls("output/Single_AngularMomenta.txt");
 
@@ -96,11 +96,10 @@ int main(int argc, const char* argv[]){
 	output_file << std::endl;
 	output_energies << std::endl;
 
-	//Do time evolution
 	int Nsteps = ndays/dt;
 	int Nsamples = ndays/sampling_step;
 
-	if( Nsamples > 5000 || Nsamples > Nsteps ){
+	if( Nsamples > 10000 || Nsamples > Nsteps ){
 		std::cout << "Error: maximum sampling exceeded. Reduce simulation time or increase sampling step" << std::endl;
 		return 1;
 	}
@@ -113,22 +112,24 @@ int main(int argc, const char* argv[]){
 	std::cout << "A photo of the system will be taken every " << M << " steps." << std::endl;
 	std::cout << "Starting simulation..." << std::endl;
 
+	//Do time evolution
 	for (int i=0; i<Nsteps; ++i){
 		if (i%M==0){
 			auto my_planets = system.Planets();
 			auto energies = system.ComputeEnergies();
 			system.PrintSystemCoords(output_file);
+			
 			output_E << i*dt << " " << system.TotalEnergy() << std::endl;
-			output_L << i*dt << " " << system.TotalAngularMomentum().mod() << std::endl;
+			output_L << i*dt << " " << system.TotalAngularMomentum() << std::endl;
 			output_energies << i*dt << " ";
 			output_Ls << i*dt << " ";
-			for (const auto &e: energies){
-				output_energies << e << " ";
+			
+			for (unsigned i=0; i<=my_planets.size(); ++i) {
+				output_energies << energies[i] << " ";
+				output_Ls << my_planets[i].AngularMomentum() << " ";
 			}
+
 			output_energies << std::endl;
-			for (const auto &p: my_planets){
-				output_Ls << p.AngularMomentum() << " ";
-			}
 			output_Ls << std::endl;
 		}
 
