@@ -13,7 +13,7 @@ import argparse
 parser = argparse.ArgumentParser(description="A python script to animate the planets motion starting from a txt file containing the simulated data.",
                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-parser.add_argument("-f", "--filepath", required=False, default="../c++/output/temporal_evolution.txt", help="The name of the file containing time evolution data.")
+parser.add_argument("-f", "--filepath", required=False, default="../c++/output/Coordinates.txt", help="The name of the file containing time evolution data.")
 
 parser.add_argument("-p", "--planets", nargs="+", default=None, help="The list of the planets to be plotted.")
 

@@ -9,6 +9,7 @@
 #include "PointMass.h"
 #include "SolarSystem.h"
 #include <cstdlib>
+#include <map>
 
 int main(int argc, const char* argv[]){
 
@@ -74,14 +75,17 @@ int main(int argc, const char* argv[]){
 
 	//get planets
 	auto planets = system.Planets();
+	
+	
+	
+	//Open output files
+	std::ofstream output_file("output/Coordinates.txt");
+	std::ofstream output_E("output/TotalEnergy.txt");
+	std::ofstream output_L("output/TotalAngularMomentum.txt");
+	std::ofstream output_energies("output/SingleEnergies.txt");
+	std::ofstream output_Ls("output/SingleAngularMomenta.txt");
 
-	//Open output file
-	std::ofstream output_file("output/temporal_evolution.txt");
-	std::ofstream output_E("output/Total_Energy.txt");
-	std::ofstream output_L("output/Total_AngularMomentum.txt");
-	std::ofstream output_energies("output/Single_Energies.txt");
-	std::ofstream output_Ls("output/Single_AngularMomenta.txt");
-
+	/*
 	//Print first line as a comment
 	output_file << "#";
 	output_energies << "#";
@@ -95,6 +99,13 @@ int main(int argc, const char* argv[]){
 	}
 	output_file << std::endl;
 	output_energies << std::endl;
+	 */
+	
+	system.PrintData(output_file, "Names");
+	system.PrintData(output_E, "Names");
+	system.PrintData(output_L, "Names");
+	system.PrintData(output_energies, "Names");
+	system.PrintData(output_Ls, "Names");
 
 	int Nsteps = ndays/dt;
 	int Nsamples = ndays/sampling_step;
@@ -115,22 +126,12 @@ int main(int argc, const char* argv[]){
 	//Do time evolution
 	for (int i=0; i<Nsteps; ++i){
 		if (i%M==0){
-			auto my_planets = system.Planets();
-			auto energies = system.ComputeEnergies();
-			system.PrintSystemCoords(output_file);
 			
-			output_E << i*dt << " " << system.TotalEnergy() << std::endl;
-			output_L << i*dt << " " << system.TotalAngularMomentum() << std::endl;
-			output_energies << i*dt << " ";
-			output_Ls << i*dt << " ";
-			
-			for (unsigned i=0; i<=my_planets.size(); ++i) {
-				output_energies << energies[i] << " ";
-				output_Ls << my_planets[i].AngularMomentum() << " ";
-			}
-
-			output_energies << std::endl;
-			output_Ls << std::endl;
+			system.PrintData(output_file, "Coordinates");
+			system.PrintData(output_energies, "SingleEnergies");
+			system.PrintData(output_Ls, "SingleAngularMomenta");
+			system.PrintData(output_E, "TotalEnergy");
+			system.PrintData(output_L, "TotalAngularMomentum");
 		}
 
 		system.TimeStep(dt);

@@ -26,14 +26,6 @@ std::vector<PointMass> SolarSystem::Planets() const {return m_planets;}
 
 void SolarSystem::Method(std::string method){m_odemethod = method;}
 
-void SolarSystem::PrintSystemCoords(std::ostream& os){
-	
-	for (const auto &p : m_planets) {
-		os << p.R() << " ";
-	}
-	os << std::endl;
-}
-
 void SolarSystem::TimeStep(double dt){
 	
 	if (m_odemethod=="EulerCromer") {
@@ -73,6 +65,8 @@ void SolarSystem::TimeStep(double dt){
 			m_planets[i].V(m_planets[i].V() + dV);
 		}
 	}
+	
+	m_t += dt;
 	
 }
 
@@ -135,4 +129,54 @@ double SolarSystem::TotalEnergy() const{
 		}
 	}
 	return E;
+}
+
+void SolarSystem::PrintData(std::ostream& os, const std::string& type) const{
+	
+	//Print planets names
+	if (type == "Names") {
+		
+		os << "#";
+		for (const auto &p : m_planets) {
+			os << p.Name() << " ";
+		}
+	}
+	
+	else if (type == "Coordinates") {
+		for (const auto &p : m_planets) {
+			os << p.R() << " ";
+		}
+	}
+	
+	else if (type == "TotalEnergy") {
+		os << m_t << " " << this->TotalEnergy();
+	}
+	
+	else if (type == "TotalAngularMomentum"){
+		os << m_t << " " << this->TotalAngularMomentum();
+	}
+	
+	
+	else if (type == "SingleEnergies"){
+		
+		os << m_t << " ";
+		
+		auto single_energies = this->ComputeEnergies();
+		
+		for (const auto &e : single_energies) {
+			os << e << " ";
+		}
+	}
+	
+	else if (type == "SingleAngularMomenta"){
+		
+		os << m_t << " ";
+		
+		for (const auto &p : m_planets) {
+			os << p.AngularMomentum() << " ";
+		}
+	}
+	
+	os << std::endl;
+	
 }

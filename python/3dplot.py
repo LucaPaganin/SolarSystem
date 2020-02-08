@@ -9,7 +9,7 @@ import functions as fnc
 
 #Parameters parsing
 parser = argparse.ArgumentParser()
-parser.add_argument("-f", "--filename", required=False, default="temporal_evolution.txt" , help="The name of the file containing time evolution data.")
+parser.add_argument("-f", "--filename", required=False, default="Coordinates.txt" , help="The name of the file containing time evolution data.")
 parser.add_argument("-p", "--planets", nargs="+", default=None, help="The list of the planets to be plotted.")
 args = parser.parse_args()
 
