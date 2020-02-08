@@ -7,18 +7,6 @@
 
 #include "PointMass.h"
 
-Vector3D PointMass::R() const {return m_R;}
-
-Vector3D PointMass::V() const {return m_V;}
-
-std::string PointMass::Name() const {return m_name;}
-
-void PointMass::R(const Vector3D& r){m_R = r;}
-
-void PointMass::V(const Vector3D& v){m_V = v;}
-
-double PointMass::M() const {return m_M;}
-
 double PointMass::ComputeGravitationalPotential(const Vector3D& r) const{
 	Vector3D rel_pos = r - m_R;
 	double potential = 0;

@@ -107,7 +107,8 @@ int main(const int argc, const char* argv[]){
 	};
 	
 	for (const auto& type: OutputFileTypes){
-		Output_Files[type] = new std::ofstream(("output/" + type + ".txt").c_str());
+		auto of_p = new std::ofstream(("output/" + type + ".txt").c_str());
+		Output_Files[type] = of_p;
 	}
 
 	//Print header with planets' names

@@ -19,7 +19,6 @@ void SolarSystem::ReadInitialConditions(std::istream& is){
 		m_planets.push_back(PointMass(Vector3D(x,y,z), Vector3D(vx,vy,vz), m, name));
 	}
 	
-	m_forces.resize(m_planets.size());
 }
 
 void SolarSystem::DoTimeStep(){
@@ -32,32 +31,36 @@ void SolarSystem::DoTimeStep(){
 		}
 		
 		//Update forces
-		this->UpdateGravitationalForces();
+		this->UpdateAccelerations();
 		
 		//Update velocities
 		for(unsigned i=0; i<m_planets.size(); ++i){
 			m_planets[i].V((m_planets[i].V()
-							+ (m_dt/m_planets[i].M()) * m_forces[i]));
+							+ (m_dt) * m_planets[i].A()));
 		}
 	}
 	
 	else if (m_odemethod=="VerletVelocity"){
-		auto old_forces = m_forces;
+		std::vector<Vector3D> old_accelerations(m_planets.size(),Vector3D(0,0,0));
+		
+		for (unsigned i=0; i<m_planets.size(); ++i) {
+			old_accelerations[i] = m_planets[i].A();
+		}
 		
 		//Update coordinates
 		for (unsigned i=0; i<m_planets.size(); ++i) {
 			auto dR = m_dt * m_planets[i].V()
-			+ 0.5 * ((m_dt * m_dt)/m_planets[i].M()) * m_forces[i];
+			+ 0.5 * (m_dt * m_dt) * m_planets[i].A();
 			
 			m_planets[i].R(m_planets[i].R() + dR);
 		}
 		
 		//Compute new forces
-		this->UpdateGravitationalForces();
+		this->UpdateAccelerations();
 		
 		//Update velocities
 		for (unsigned i=0; i<m_planets.size(); ++i) {
-			auto dV = (0.5 * m_dt / m_planets[i].M()) * (old_forces[i] + m_forces[i]);
+			auto dV = 0.5 * m_dt * (old_accelerations[i] + m_planets[i].A());
 			m_planets[i].V(m_planets[i].V() + dV);
 		}
 	}
@@ -66,24 +69,26 @@ void SolarSystem::DoTimeStep(){
 	
 }
 
-void SolarSystem::UpdateGravitationalForces(){
+void SolarSystem::UpdateAccelerations(){
 	
-	//Initialize forces to zero
-	for (auto &f : m_forces) {
-		f = Vector3D(0,0,0);
-	}
+	std::vector<Vector3D> forces(m_planets.size(),Vector3D(0,0,0));
 	
-	//Compute new forces
+	//Compute forces
 	for (unsigned i=0; i<m_planets.size(); i++) {
 		for (unsigned j=i+1; j<m_planets.size(); j++){
 			auto fij = m_planets[i].M()*m_planets[j].ComputeGravitationalField(m_planets[i].R());
 			
 			//Add fij to fi, where fij is the force of j on i
-			m_forces[i] += fij;
+			forces[i] += fij;
 			//Add -fij to fj, for Newton third principle
-			m_forces[j] -= fij;
+			forces[j] -= fij;
 		}
 	}
+	
+	for (unsigned i=0; i<m_planets.size(); ++i) {
+		m_planets[i].A((1./m_planets[i].M())*forces[i]);
+	}
+	
 }
 
 std::vector<double> SolarSystem::ComputeEnergies() const{
