@@ -12,6 +12,7 @@ main
 output
 test
 *.gif
+*.mp4
 *.pdf
 
 

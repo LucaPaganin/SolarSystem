@@ -3,7 +3,7 @@ INCDIR = inc
 OBJDIR = obj
 
 CC = g++
-CCFLAGS = -std=c++11 -Wall -g -I $(INCDIR)/
+CCFLAGS = -std=c++17 -Wall -g -I $(INCDIR)/
 
 #Get sources in the $(SRCDIR) using the wildcard
 SRCS = $(wildcard $(SRCDIR)/*.cpp)

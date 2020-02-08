@@ -10,6 +10,7 @@
 #include "SolarSystem.h"
 #include <cstdlib>
 #include <map>
+#include <memory>
 
 void set_pars(const int argc, const char* argv[], std::string& input_path, double& ndays, double& dt, double& sampling_step){
 
@@ -95,7 +96,7 @@ int main(const int argc, const char* argv[]){
 	system.TimeStep(dt);
 	
 	//Manage output files
-	std::map<std::string, std::ofstream*> Output_Files;
+	std::map<std::string, std::unique_ptr<std::ofstream>> Output_Files;
 	
 	std::vector<std::string>
 	OutputFileTypes{
@@ -107,8 +108,9 @@ int main(const int argc, const char* argv[]){
 	};
 	
 	for (const auto& type: OutputFileTypes){
-		auto of_p = new std::ofstream(("output/" + type + ".txt").c_str());
-		Output_Files[type] = of_p;
+		//auto of_p = new std::ofstream(("output/" + type + ".txt").c_str());
+		//Output_Files[type] = of_p;
+		Output_Files[type] = std::make_unique<std::ofstream>(("output/" + type + ".txt").c_str());
 	}
 
 	//Print header with planets' names
@@ -130,7 +132,7 @@ int main(const int argc, const char* argv[]){
 
 	for (auto it = Output_Files.begin(); it != Output_Files.end(); ++it) {
 		(it->second)->close();
-		delete it->second;
+		//delete it->second;
 	}
 
 	return 0;
