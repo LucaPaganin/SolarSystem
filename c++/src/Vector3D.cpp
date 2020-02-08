@@ -8,31 +8,7 @@
 #include "Vector3D.h"
 #include <cmath>
 
-double Vector3D::X(){
-	return m_v[0];
-}
-
-double Vector3D::Y(){
-	return m_v[1];
-}
-
-double Vector3D::Z(){
-	return m_v[2];
-}
-
-void Vector3D::X(double x){
-	m_v[0] = x;
-}
-
-void Vector3D::Y(double y){
-	m_v[1] = y;
-}
-
-void Vector3D::Z(double z){
-	m_v[2] = z;
-}
-
-double Vector3D::mod(){
+double Vector3D::mod() const{
 	return std::sqrt((*this)*(*this));
 }
 

@@ -11,6 +11,79 @@
 #include <cstdlib>
 #include <map>
 #include <memory>
+#include <chrono>
+
+void set_pars(const int, const char*[], std::string&, double&, double&, double&);
+void print_info(const std::string&, double, double, double, int, int, int);
+void print_usage(const int, const char*[], const std::string&, double, double, double);
+std::vector<PointMass> GetSolarSystemFromFile(const std::string&);
+
+int main(const int argc, const char* argv[]){
+
+	std::string input_path = "effemeridi.txt";
+	double ndays = 365, dt = 0.1, sampling_step = 1.0;
+	
+	//Error message if argc > 5
+	if (argc > 5) {
+		print_usage(argc, argv, input_path, ndays, dt, sampling_step);
+		return 1;
+	}
+	
+	set_pars(argc, argv, input_path, ndays, dt, sampling_step);
+	
+	int Nsteps = ndays/dt, Nsamples = ndays/sampling_step, M = Nsteps/Nsamples;
+	
+	if( Nsamples > 5000 || Nsamples > Nsteps ){
+		std::cout << "Error: maximum sampling exceeded. Reduce simulation time or increase sampling step" << std::endl;
+		return 1;
+	}
+	
+	//Print info messages with the simulation parameters:
+	print_info(input_path, ndays, dt, sampling_step, Nsteps, Nsamples, M);
+
+	//Read initial conditions
+	auto planets = GetSolarSystemFromFile(input_path);
+	SolarSystem system(planets, "VerletVelocity", dt);
+	
+	//Manage output files
+	std::map<std::string, std::unique_ptr<std::ofstream>> Output_Files;
+	
+	std::vector<std::string>
+	OutputFileTypes{
+		"Coordinates",
+		"TotalEnergy",
+		"TotalAngularMomentum",
+		"SingleEnergies",
+		"SingleAngularMomenta"
+	};
+	
+	for (const auto& type: OutputFileTypes){
+		//auto of_p = new std::ofstream(("output/" + type + ".txt").c_str());
+		//Output_Files[type] = of_p;
+		Output_Files[type] = std::make_unique<std::ofstream>(("output/" + type + ".txt").c_str());
+	}
+
+	//Print header with planets' names
+	for (auto it = Output_Files.begin(); it != Output_Files.end(); ++it) {
+		system.PrintData(*(it->second), "Names");
+	}
+
+	//Do time evolution
+	for (int i=0; i<Nsteps; ++i){
+		if (i%M==0){
+			for (auto it = Output_Files.begin(); it != Output_Files.end(); ++it) {
+				system.PrintData(*(it->second), it->first);
+			}
+		}
+		system.DoTimeStep();
+	}
+
+	for (auto it = Output_Files.begin(); it != Output_Files.end(); ++it) {
+		(it->second)->close();
+	}
+
+	return 0;
+}
 
 void set_pars(const int argc, const char* argv[], std::string& input_path, double& ndays, double& dt, double& sampling_step){
 
@@ -58,82 +131,28 @@ void print_info(const std::string& input_path, double ndays, double dt, double s
 	
 }
 
-int main(const int argc, const char* argv[]){
+void print_usage(const int argc, const char* argv[], const std::string& input_path, double ndays, double dt, double sampling_step){
+	std::cout << "Too many parameters. Usage is: " << argv[0];
+	std::cout << " input_filename (default " << input_path << ")";
+	std::cout << " simulation_timespan (default " << ndays << ")";
+	std::cout << " timestep (default " << dt << ")";
+	std::cout << " sampling_step (default " << sampling_step << ")";
+	std::cout << std::endl;
+}
 
-	std::string input_path = "effemeridi.txt";
-	double ndays = 365, dt = 0.1, sampling_step = 1.0;
+std::vector<PointMass> GetSolarSystemFromFile(const std::string& input_filepath){
 	
-	//Error message if argc > 5
-	if (argc > 5) {
-		std::cout << "Too many parameters. Usage is: " << argv[0];
-		std::cout << " input_filename (default " << input_path << ")";
-		std::cout << " simulation_timespan (default " << ndays << ")";
-		std::cout << " timestep (default " << dt << ")";
-		std::cout << " sampling_step (default " << sampling_step << ")";
-		std::cout << std::endl;
-		return 1;
+	std::vector<PointMass> planets;
+	std::ifstream ifile(input_filepath);
+	
+	std::string name;
+	double m,x,y,z,vx,vy,vz;
+	
+	while (ifile >> name >> m >> x >> y >> z >> vx >> vy >> vz) {
+		
+		planets.push_back(PointMass(Vector3D(x,y,z), Vector3D(vx,vy,vz), m, name));
 	}
 	
-	set_pars(argc, argv, input_path, ndays, dt, sampling_step);
-	
-	int Nsteps = ndays/dt, Nsamples = ndays/sampling_step, M = Nsteps/Nsamples;
-	
-	if( Nsamples > 10000 || Nsamples > Nsteps ){
-		std::cout << "Error: maximum sampling exceeded. Reduce simulation time or increase sampling step" << std::endl;
-		return 1;
-	}
-	
-	//Print info messages with the simulation parameters:
-	print_info(input_path, ndays, dt, sampling_step, Nsteps, Nsamples, M);
-
-	//Read initial conditions
-	SolarSystem system;
-	std::ifstream input_file(input_path);
-	system.ReadInitialConditions(input_file);
-	input_file.close();
-	//Set ODE solution method and time step
-	system.Method("VerletVelocity");
-	system.TimeStep(dt);
-	
-	//Manage output files
-	std::map<std::string, std::unique_ptr<std::ofstream>> Output_Files;
-	
-	std::vector<std::string>
-	OutputFileTypes{
-		"Coordinates",
-		"TotalEnergy",
-		"TotalAngularMomentum",
-		"SingleEnergies",
-		"SingleAngularMomenta"
-	};
-	
-	for (const auto& type: OutputFileTypes){
-		//auto of_p = new std::ofstream(("output/" + type + ".txt").c_str());
-		//Output_Files[type] = of_p;
-		Output_Files[type] = std::make_unique<std::ofstream>(("output/" + type + ".txt").c_str());
-	}
-
-	//Print header with planets' names
-	for (auto it = Output_Files.begin(); it != Output_Files.end(); ++it) {
-		system.PrintData(*(it->second), "Names");
-	}
-
-	//Do time evolution
-	for (int i=0; i<Nsteps; ++i){
-		if (i%M==0){
-			for (auto it = Output_Files.begin(); it != Output_Files.end(); ++it) {
-				system.PrintData(*(it->second), it->first);
-			}
-		}
-		system.DoTimeStep();
-	}
-
-	std::cout << "Done." << std::endl;
-
-	for (auto it = Output_Files.begin(); it != Output_Files.end(); ++it) {
-		(it->second)->close();
-		//delete it->second;
-	}
-
-	return 0;
+	ifile.close();
+	return planets;
 }

@@ -17,7 +17,7 @@ parser.add_argument("-f", "--filepath", required=False, default="../c++/output/C
 
 parser.add_argument("-p", "--planets", nargs="+", default=None, help="The list of the planets to be plotted.")
 
-parser.add_argument("-s", "--save_animation", action="store_true", help="Option for saving animation to file.")
+parser.add_argument("-mf", "--moviefilename", default=None, help="Name of file where to save animation.")
 
 args = parser.parse_args()
 
@@ -78,10 +78,10 @@ ani = animation.FuncAnimation(fig,
                               fargs=(planets_data, lines),
                               interval=fnc.get_animation_interval(planets_data[0], 5),
                               blit=False)
-if args.save_animation:
+if args.moviefilename is not None:
     # Set up formatting for the movie files
     Writer = animation.writers['ffmpeg']
     writer = Writer(fps=15, metadata=dict(artist='Me'), bitrate=1800)
-    ani.save("planets_movie.mp4", writer=writer)
+    ani.save(args.moviefilename, writer=writer)
 
 plt.show()
