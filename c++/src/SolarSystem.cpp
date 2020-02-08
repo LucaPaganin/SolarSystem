@@ -22,26 +22,22 @@ void SolarSystem::ReadInitialConditions(std::istream& is){
 	m_forces.resize(m_planets.size());
 }
 
-std::vector<PointMass> SolarSystem::Planets() const {return m_planets;}
-
-void SolarSystem::Method(std::string method){m_odemethod = method;}
-
-void SolarSystem::TimeStep(double dt){
+void SolarSystem::DoTimeStep(){
 	
 	if (m_odemethod=="EulerCromer") {
 		
 		//Update coordinates
 		for(unsigned i=0; i<m_planets.size(); ++i){
-			m_planets[i].R((m_planets[i].R() + dt*m_planets[i].V()));
+			m_planets[i].R((m_planets[i].R() + m_dt*m_planets[i].V()));
 		}
 		
 		//Update forces
-		this->ComputeGravitationalForces();
+		this->UpdateGravitationalForces();
 		
 		//Update velocities
 		for(unsigned i=0; i<m_planets.size(); ++i){
 			m_planets[i].V((m_planets[i].V()
-							+ (dt/m_planets[i].M()) * m_forces[i]));
+							+ (m_dt/m_planets[i].M()) * m_forces[i]));
 		}
 	}
 	
@@ -50,27 +46,27 @@ void SolarSystem::TimeStep(double dt){
 		
 		//Update coordinates
 		for (unsigned i=0; i<m_planets.size(); ++i) {
-			auto dR = dt * m_planets[i].V()
-			+ 0.5 * ((dt * dt)/m_planets[i].M()) * m_forces[i];
+			auto dR = m_dt * m_planets[i].V()
+			+ 0.5 * ((m_dt * m_dt)/m_planets[i].M()) * m_forces[i];
 			
 			m_planets[i].R(m_planets[i].R() + dR);
 		}
 		
 		//Compute new forces
-		this->ComputeGravitationalForces();
+		this->UpdateGravitationalForces();
 		
 		//Update velocities
 		for (unsigned i=0; i<m_planets.size(); ++i) {
-			auto dV = (0.5 * dt / m_planets[i].M()) * (old_forces[i] + m_forces[i]);
+			auto dV = (0.5 * m_dt / m_planets[i].M()) * (old_forces[i] + m_forces[i]);
 			m_planets[i].V(m_planets[i].V() + dV);
 		}
 	}
 	
-	m_t += dt;
+	m_t += m_dt;
 	
 }
 
-void SolarSystem::ComputeGravitationalForces(){
+void SolarSystem::UpdateGravitationalForces(){
 	
 	//Initialize forces to zero
 	for (auto &f : m_forces) {
@@ -108,7 +104,7 @@ std::vector<double> SolarSystem::ComputeEnergies() const{
 	
 }
 
-Vector3D SolarSystem::TotalAngularMomentum() const{
+Vector3D SolarSystem::ComputeTotalAngularMomentum() const{
 	Vector3D Ltot(0,0,0);
 	
 	for (const auto &p : m_planets) {
@@ -118,7 +114,7 @@ Vector3D SolarSystem::TotalAngularMomentum() const{
 	return Ltot;
 }
 
-double SolarSystem::TotalEnergy() const{
+double SolarSystem::ComputeTotalEnergy() const{
 	double E = 0;
 	for (unsigned i=0; i<m_planets.size(); ++i) {
 		E += m_planets[i].KineticEnergy();
@@ -149,11 +145,11 @@ void SolarSystem::PrintData(std::ostream& os, const std::string& type) const{
 	}
 	
 	else if (type == "TotalEnergy") {
-		os << m_t << " " << this->TotalEnergy();
+		os << m_t << " " << this->ComputeTotalEnergy();
 	}
 	
 	else if (type == "TotalAngularMomentum"){
-		os << m_t << " " << this->TotalAngularMomentum();
+		os << m_t << " " << this->ComputeTotalAngularMomentum();
 	}
 	
 	

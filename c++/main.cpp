@@ -43,6 +43,20 @@ void set_pars(const int argc, const char* argv[], std::string& input_path, doubl
 	
 }
 
+void print_info(const std::string& input_path, double ndays, double dt, double sampling_step, int Nsteps, int Nsamples, int M){
+	
+	std::cout << "Input file with initial conditions: " << input_path << std::endl;
+	std::cout << "Simulation timespan: " << ndays << " terrestrial days" << std::endl;
+	std::cout << "Simulation timestep: " << dt << " terrestrial days" << std::endl;
+	std::cout << "Simulation sampling timestep: " << sampling_step << " terrestrial days" << std::endl;
+	std::cout << "Nsamples = " << Nsamples << std::endl;
+	std::cout << "Nsteps = " << Nsteps << std::endl;
+	std::cout << "M = Nsteps/Nsamples = " << M << std::endl;
+	std::cout << "A photo of the system will be taken every " << M << " steps." << std::endl;
+	std::cout << "Starting simulation..." << std::endl;
+	
+}
+
 int main(const int argc, const char* argv[]){
 
 	std::string input_path = "effemeridi.txt";
@@ -61,71 +75,62 @@ int main(const int argc, const char* argv[]){
 	
 	set_pars(argc, argv, input_path, ndays, dt, sampling_step);
 	
-	//Print info messages with the simulation parameters:
-	std::cout << "Input file with initial conditions: " << input_path << std::endl;
-	std::cout << "Simulation timespan: " << ndays << " terrestrial days" << std::endl;
-	std::cout << "Simulation timestep: " << dt << " terrestrial days" << std::endl;
-	std::cout << "Simulation sampling timestep: " << sampling_step << " terrestrial days" << std::endl;
-
-	//Read initial conditions
-	std::ifstream input_file(input_path);
-	SolarSystem system;
-	system.ReadInitialConditions(input_file);
-	input_file.close();
-
-	//Set ODE solution method
-	system.Method("VerletVelocity");
-
-	//Open output files
-	std::ofstream output_file("output/Coordinates.txt");
-	std::ofstream output_E("output/TotalEnergy.txt");
-	std::ofstream output_L("output/TotalAngularMomentum.txt");
-	std::ofstream output_energies("output/SingleEnergies.txt");
-	std::ofstream output_Ls("output/SingleAngularMomenta.txt");
+	int Nsteps = ndays/dt, Nsamples = ndays/sampling_step, M = Nsteps/Nsamples;
 	
-	system.PrintData(output_file, "Names");
-	system.PrintData(output_E, "Names");
-	system.PrintData(output_L, "Names");
-	system.PrintData(output_energies, "Names");
-	system.PrintData(output_Ls, "Names");
-
-	int Nsteps = ndays/dt;
-	int Nsamples = ndays/sampling_step;
-
 	if( Nsamples > 10000 || Nsamples > Nsteps ){
 		std::cout << "Error: maximum sampling exceeded. Reduce simulation time or increase sampling step" << std::endl;
 		return 1;
 	}
+	
+	//Print info messages with the simulation parameters:
+	print_info(input_path, ndays, dt, sampling_step, Nsteps, Nsamples, M);
 
-	int M = Nsteps/Nsamples;
+	//Read initial conditions
+	SolarSystem system;
+	std::ifstream input_file(input_path);
+	system.ReadInitialConditions(input_file);
+	input_file.close();
+	//Set ODE solution method and time step
+	system.Method("VerletVelocity");
+	system.TimeStep(dt);
+	
+	//Manage output files
+	std::map<std::string, std::ofstream*> Output_Files;
+	
+	std::vector<std::string>
+	OutputFileTypes{
+		"Coordinates",
+		"TotalEnergy",
+		"TotalAngularMomentum",
+		"SingleEnergies",
+		"SingleAngularMomenta"
+	};
+	
+	for (const auto& type: OutputFileTypes){
+		Output_Files[type] = new std::ofstream(("output/" + type + ".txt").c_str());
+	}
 
-	std::cout << "Nsamples = " << Nsamples << std::endl;
-	std::cout << "Nsteps = " << Nsteps << std::endl;
-	std::cout << "M = Nsteps/Nsamples = " << M << std::endl;
-	std::cout << "A photo of the system will be taken every " << M << " steps." << std::endl;
-	std::cout << "Starting simulation..." << std::endl;
+	//Print header with planets' names
+	for (auto it = Output_Files.begin(); it != Output_Files.end(); ++it) {
+		system.PrintData(*(it->second), "Names");
+	}
 
 	//Do time evolution
 	for (int i=0; i<Nsteps; ++i){
 		if (i%M==0){
-			
-			system.PrintData(output_file, "Coordinates");
-			system.PrintData(output_energies, "SingleEnergies");
-			system.PrintData(output_Ls, "SingleAngularMomenta");
-			system.PrintData(output_E, "TotalEnergy");
-			system.PrintData(output_L, "TotalAngularMomentum");
+			for (auto it = Output_Files.begin(); it != Output_Files.end(); ++it) {
+				system.PrintData(*(it->second), it->first);
+			}
 		}
-
-		system.TimeStep(dt);
+		system.DoTimeStep();
 	}
 
 	std::cout << "Done." << std::endl;
 
-	output_file.close();
-	output_E.close();
-	output_L.close();
-	output_energies.close();
-	output_Ls.close();
+	for (auto it = Output_Files.begin(); it != Output_Files.end(); ++it) {
+		(it->second)->close();
+		delete it->second;
+	}
 
 	return 0;
 }
