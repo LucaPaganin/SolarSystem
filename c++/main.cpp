@@ -11,23 +11,7 @@
 #include <cstdlib>
 #include <map>
 
-int main(int argc, const char* argv[]){
-
-	auto input_path = "effemeridi.txt";
-	auto ndays = 365;
-	auto dt = 0.1;
-	auto sampling_step = 1.0;
-
-	//Error message if argc > 5
-	if (argc > 5) {
-		std::cout << "Too many parameters. Usage is: " << argv[0];
-		std::cout << " input_filename (default " << input_path << ")";
-		std::cout << " simulation_timespan (default " << ndays << ")";
-		std::cout << " timestep (default " << dt << ")";
-		std::cout << " sampling_step (default " << sampling_step << ")";
-		std::cout << std::endl;
-		return 1;
-	}
+void set_pars(const int argc, const char* argv[], std::string& input_path, double& ndays, double& dt, double& sampling_step){
 
 	//Assign the given values to the parameters
 
@@ -56,9 +40,28 @@ int main(int argc, const char* argv[]){
 		default:
 			break;
 	}
+	
+}
 
+int main(const int argc, const char* argv[]){
+
+	std::string input_path = "effemeridi.txt";
+	double ndays = 365, dt = 0.1, sampling_step = 1.0;
+	
+	//Error message if argc > 5
+	if (argc > 5) {
+		std::cout << "Too many parameters. Usage is: " << argv[0];
+		std::cout << " input_filename (default " << input_path << ")";
+		std::cout << " simulation_timespan (default " << ndays << ")";
+		std::cout << " timestep (default " << dt << ")";
+		std::cout << " sampling_step (default " << sampling_step << ")";
+		std::cout << std::endl;
+		return 1;
+	}
+	
+	set_pars(argc, argv, input_path, ndays, dt, sampling_step);
+	
 	//Print info messages with the simulation parameters:
-
 	std::cout << "Input file with initial conditions: " << input_path << std::endl;
 	std::cout << "Simulation timespan: " << ndays << " terrestrial days" << std::endl;
 	std::cout << "Simulation timestep: " << dt << " terrestrial days" << std::endl;
@@ -73,33 +76,12 @@ int main(int argc, const char* argv[]){
 	//Set ODE solution method
 	system.Method("VerletVelocity");
 
-	//get planets
-	auto planets = system.Planets();
-	
-	
-	
 	//Open output files
 	std::ofstream output_file("output/Coordinates.txt");
 	std::ofstream output_E("output/TotalEnergy.txt");
 	std::ofstream output_L("output/TotalAngularMomentum.txt");
 	std::ofstream output_energies("output/SingleEnergies.txt");
 	std::ofstream output_Ls("output/SingleAngularMomenta.txt");
-
-	/*
-	//Print first line as a comment
-	output_file << "#";
-	output_energies << "#";
-	output_Ls << "#";
-
-	//Print planets names
-	for (const auto &p: planets){
-		output_file << p.Name() << " ";
-		output_energies << p.Name() << " ";
-		output_Ls << p.Name() << " ";
-	}
-	output_file << std::endl;
-	output_energies << std::endl;
-	 */
 	
 	system.PrintData(output_file, "Names");
 	system.PrintData(output_E, "Names");
