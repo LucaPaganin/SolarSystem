@@ -58,8 +58,6 @@ int main(const int argc, const char* argv[]){
 	};
 	
 	for (const auto& type: OutputFileTypes){
-		//auto of_p = new std::ofstream(("output/" + type + ".txt").c_str());
-		//Output_Files[type] = of_p;
 		Output_Files[type] = std::make_unique<std::ofstream>(("output/" + type + ".txt").c_str());
 	}
 

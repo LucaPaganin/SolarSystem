@@ -8,41 +8,30 @@
 #include "SolarSystem.h"
 
 void SolarSystem::ReadInitialConditions(std::istream& is){
-	
-	//std::cout << "Hello" << std::endl;
-	
 	std::string name;
 	double m,x,y,z,vx,vy,vz;
 	
 	while (is >> name >> m >> x >> y >> z >> vx >> vy >> vz) {
-		
 		m_planets.push_back(PointMass(Vector3D(x,y,z), Vector3D(vx,vy,vz), m, name));
 	}
-	
 }
 
 void SolarSystem::DoTimeStep(){
-	
 	if (m_odemethod=="EulerCromer") {
-		
 		//Update coordinates
 		for(unsigned i=0; i<m_planets.size(); ++i){
 			m_planets[i].R((m_planets[i].R() + m_dt*m_planets[i].V()));
 		}
-		
 		//Update forces
 		this->UpdateAccelerations();
-		
 		//Update velocities
 		for(unsigned i=0; i<m_planets.size(); ++i){
 			m_planets[i].V((m_planets[i].V()
 							+ (m_dt) * m_planets[i].A()));
 		}
 	}
-	
 	else if (m_odemethod=="VerletVelocity"){
 		std::vector<Vector3D> old_accelerations(m_planets.size(),Vector3D(0,0,0));
-		
 		for (unsigned i=0; i<m_planets.size(); ++i) {
 			old_accelerations[i] = m_planets[i].A();
 		}
