@@ -32,8 +32,8 @@ def init_dashboard():
 
     return dash_app
 
+app = init_dashboard()
 
 if __name__ == '__main__':
-    app = init_dashboard()
     debug = os.getenv("DASH_DEBUG") == "true"
     app.run_server(debug=debug)
