@@ -108,7 +108,7 @@ def simulationSettings():
     now = datetime.today()
     sim_duration = dbc.InputGroup([
         dbc.InputGroupText("Duration"),
-        dbc.Input(id=f"sim-duration", value=365, type="number", step=1),
+        dbc.Input(id=f"sim-duration", value=365, type="number", step=1, min=10, max=1e6),
         dbc.InputGroupText("d")
     ], className='mb-3')
     anim_frames = dbc.InputGroup([
