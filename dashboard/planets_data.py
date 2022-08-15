@@ -101,7 +101,7 @@ def run_simulation(infile=INPUTDIR/"effemeridi.txt", ndays=365, dt_days=0.1, sam
         logger.debug(f"Correctly removed process {proc.pid} from current processes")
         data = {
             "time_evo": parse_temporal_evolution(outdir/"temporal_evolution.txt", sampling_step_days=sampling_step_days),
-            "energies": parse_single_energies(outdir/"Single_energies.txt")
+            "energies": parse_single_energies(outdir/"Single_Energies.txt")
         }
         logger.debug(f"removing working directory {workdir}")
         shutil.rmtree(workdir)
