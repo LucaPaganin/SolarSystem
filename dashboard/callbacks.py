@@ -59,18 +59,17 @@ def init_callbacks(app):
         [State('planets-list', 'children'),
          State('sim-duration', 'value'),
          State('animation-frames', 'value'),
-         State('computation-steps', 'value'),
          State('solarsystem-3dplot', 'figure'),
          State('energy-plot', 'figure')]
     )
-    def solar_system_sim(run_n_clicks, plist, duration, animation_frames, computation_steps, curr_3d_plot, curr_energy_plot):
+    def solar_system_sim(run_n_clicks, plist, duration, animation_frames, curr_3d_plot, curr_energy_plot):
         try:
             animation_step = duration/animation_frames
-            computation_step = duration/computation_steps
+            computation_step = 0.1
             if animation_step > computation_step:
                 start = timer()
                 logger.info(f"Simulation number {run_n_clicks} triggered, running it")
-                logger.info(f"settings: duration {duration} days, frames {animation_frames}, steps {computation_steps}")
+                logger.info(f"settings: duration {duration} days, frames {animation_frames}, steps {duration/computation_step}")
                 planets, outdata = do_time_evolution(plist, duration, animation_step, computation_step)
                 logger.info(f"finished running simulation, elapsed time {timer()-start} s")
                 names = [k for k in SOLARSYSTEMNAMES if planets[k]['present']]
@@ -107,9 +106,8 @@ def init_callbacks(app):
 
     @app.callback(
         [Output('sim-duration', 'value'),
-         Output('animation-frames', 'value'),
-         Output('computation-steps', 'value')],
+         Output('animation-frames', 'value')],
         [Input('solarsystem-reset-button', 'n_clicks')]
     )
     def reset_settings(n_clicks):
-        return 365, 100, 1000
+        return 365, 100

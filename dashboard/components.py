@@ -56,16 +56,15 @@ def planetsListColumn():
 
 
 def plotsColumn():
-    sim_duration, anim_frames, comp_step, eph_date = simulationSettings()
+    sim_duration, anim_frames, eph_date = simulationSettings()
     return dbc.Container([
         dbc.Row([
             dbc.Col(sim_duration, className="col"),
             dbc.Col(anim_frames, className="col"),
-            dbc.Col(comp_step, className="col")
+            dbc.Col(eph_date, className="col")
         ], className="row row-cols-3"),
         dbc.Row([
-            dbc.Col(controlButtons()),
-            dbc.Col(eph_date)
+            dbc.Col(controlButtons())
         ]),
         dbc.Row(
             dbc.Container(plotTabs(), className="mt-3")
@@ -116,11 +115,6 @@ def simulationSettings():
         dbc.Input(id=f"animation-frames", value=100,
                   type="number", step=1, min=10, max=500)
     ], className='mb-3')
-    comp_step = dbc.InputGroup([
-        dbc.InputGroupText("steps"),
-        dbc.Input(id=f"computation-steps", value=1000,
-                  type="number", step=1, min=100, max=1e6)
-    ], className='mb-3')
     eph_date = dbc.Container([
         html.Div(
             "Ephemerids date",
@@ -134,7 +128,7 @@ def simulationSettings():
             className="p-2 align-items-center")
     ], className="d-flex flex-row")
 
-    return sim_duration, anim_frames, comp_step, eph_date
+    return sim_duration, anim_frames, eph_date
 
 
 def controlButtons():
