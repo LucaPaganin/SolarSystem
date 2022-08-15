@@ -1,16 +1,17 @@
+import os
 from dash import html, Dash
 import dash_bootstrap_components as dbc
 from dashboard.utils import dashboardlogging as Logger
 from dashboard.callbacks import init_callbacks
-from dashboard.components import *
+from dashboard.components import standardSolarSystemTab
 
-logger = Logger.GetLogger('blog', configure=True)
+logger = Logger.GetLogger('app', configure=True)
 
 
-def init_dashboard_debug():
+def init_dashboard():
     """Create a Plotly Dash dashboard."""
     dash_app = Dash(
-        title="Solar System (Debug)",
+        title="Solar System Simulator",
         routes_pathname_prefix='/dashboards/solarsystem/',
         external_stylesheets=[
             dbc.themes.BOOTSTRAP, 'static/solarsystem_dashboard.css'
@@ -33,5 +34,6 @@ def init_dashboard_debug():
 
 
 if __name__ == '__main__':
-    app = init_dashboard_debug()
-    app.run_server(debug=True)
+    app = init_dashboard()
+    debug = os.getenv("DASH_DEBUG") == "true"
+    app.run_server(debug=debug)

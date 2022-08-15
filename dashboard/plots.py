@@ -124,7 +124,7 @@ def make_3d_plot(df=None, names=None):
     return fig
 
 
-def configure_animation_controls(fig, duration=30):
+def configure_animation_controls(fig, duration=50):
     def frame_args(duration, redraw):
         return {
             "frame": {"duration": duration, "redraw": redraw},

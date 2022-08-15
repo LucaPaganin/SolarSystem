@@ -95,6 +95,7 @@ int main(int argc, const char* argv[]){
 	}
 	output_file << std::endl;
 	output_energies << std::endl;
+	output_Ls << std::endl;
 
 	int Nsteps = ndays/dt;
 	int Nsamples = ndays/sampling_step;
@@ -124,7 +125,7 @@ int main(int argc, const char* argv[]){
 			output_energies << i*dt << " ";
 			output_Ls << i*dt << " ";
 			
-			for (unsigned i=0; i<=my_planets.size(); ++i) {
+			for (unsigned i=0; i<my_planets.size(); ++i) {
 				output_energies << energies[i] << " ";
 				output_Ls << my_planets[i].AngularMomentum() << " ";
 			}
@@ -135,7 +136,8 @@ int main(int argc, const char* argv[]){
 
 		system.TimeStep(dt);
 	}
-
+	std::cout << "Printing last frame of the system" << std::endl;
+	system.PrintSystemCoords(output_file);
 	std::cout << "Done." << std::endl;
 
 	output_file.close();

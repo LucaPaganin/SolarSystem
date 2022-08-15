@@ -13,6 +13,8 @@ output
 test
 *.gif
 *.pdf
+x64
+*.pdb
 
 
 ##################
