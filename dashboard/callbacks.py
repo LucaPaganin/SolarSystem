@@ -6,6 +6,7 @@ from .planets_data import *
 from .ephemerids import retrieve_solarsystem_ephemerids
 from .utils import dashboardlogging as Logger
 from timeit import default_timer as timer
+import traceback
 logger = Logger.GetLogger(__name__, configure=True)
 
 
@@ -63,21 +64,24 @@ def init_callbacks(app):
          State('energy-plot', 'figure')]
     )
     def solar_system_sim(run_n_clicks, plist, duration, animation_frames, computation_steps, curr_3d_plot, curr_energy_plot):
-        animation_step = duration/animation_frames
-        computation_step = duration/computation_steps
-        if animation_step > computation_step:
-            start = timer()
-            logger.info(f"Simulation number {run_n_clicks} triggered, running it")
-            logger.info(f"settings: duration {duration} days, frames {animation_frames}, steps {computation_steps}")
-            planets, outdata = do_time_evolution(plist, duration, animation_step, computation_step)
-            logger.info(f"finished running simulation, elapsed time {timer()-start} s")
-            names = [k for k in SOLARSYSTEMNAMES if planets[k]['present']]
-            fig3d = make_3d_plot(df=outdata['time_evo'], names=names)
-            fig_energy = make_energy_plot(df=outdata["energies"])
-            return fig3d, fig_energy
-        else:
-            logger.warning(f"animation_step {animation_step} was greater than computation_step {computation_step}, skipping computation")
-            return curr_3d_plot, curr_energy_plot
+        try:
+            animation_step = duration/animation_frames
+            computation_step = duration/computation_steps
+            if animation_step > computation_step:
+                start = timer()
+                logger.info(f"Simulation number {run_n_clicks} triggered, running it")
+                logger.info(f"settings: duration {duration} days, frames {animation_frames}, steps {computation_steps}")
+                planets, outdata = do_time_evolution(plist, duration, animation_step, computation_step)
+                logger.info(f"finished running simulation, elapsed time {timer()-start} s")
+                names = [k for k in SOLARSYSTEMNAMES if planets[k]['present']]
+                fig3d = make_3d_plot(df=outdata['time_evo'], names=names)
+                fig_energy = make_energy_plot(df=outdata["energies"])
+                return fig3d, fig_energy
+            else:
+                logger.warning(f"animation_step {animation_step} was greater than computation_step {computation_step}, skipping computation")
+                return curr_3d_plot, curr_energy_plot
+        except:
+            logger.error(traceback.format_exc())
 
     @app.callback(
         Output('planets-list', 'children'),
