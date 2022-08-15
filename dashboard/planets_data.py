@@ -50,18 +50,25 @@ with open(INPUTDIR/"solar_system_default.json", "r") as f:
 
 def _run_sim(infile, ndays, dt_days, sampling_step_days, workdir):
     cwd0 = os.getcwd()
-    if sys.platform == "win32":
-        logger.debug(f"working directory {workdir}")
-        os.chdir(workdir)
-        try:
+    logger.debug(f"working directory {workdir}")
+    os.chdir(workdir)
+    try:
+        if sys.platform == "win32":
             p = sp.run(f"{WINEXEDIR}/SolarSystem.exe {infile} {ndays} {dt_days} {sampling_step_days}",
                        shell=True, text=True, stdout=sp.PIPE, stderr=sp.PIPE, cwd=workdir, check=True)
-            logger.info("finished running simulation")
-        except sp.CalledProcessError as e:
-            logger.error(e)
+        else:
+            p = sp.run(f"{UNIXBINDIR}/main {infile} {ndays} {dt_days} {sampling_step_days}",
+                       shell=True, text=True, stdout=sp.PIPE, stderr=sp.PIPE, cwd=workdir, check=True)
+        logger.info("finished running simulation")
+        stdout, stderr = p.communicate()
+        if stdout:
+            logger.info(stdout)
+        if stderr:
+            logger.error(stderr)
+    except sp.CalledProcessError as e:
+        logger.error(e)
+    finally:
         os.chdir(cwd0)
-    else:
-        pass
 
 
 def run_simulation(infile=INPUTDIR/"effemeridi.txt", ndays=365, dt_days=0.1, sampling_step_days=1):
