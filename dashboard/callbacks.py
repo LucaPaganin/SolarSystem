@@ -65,7 +65,7 @@ def init_callbacks(app):
     def solar_system_sim(run_n_clicks, plist, duration, animation_frames, curr_3d_plot, curr_energy_plot):
         try:
             animation_step = duration/animation_frames
-            computation_step = 0.1
+            computation_step = 0.01
             if animation_step > computation_step:
                 start = timer()
                 logger.info(f"Simulation number {run_n_clicks} triggered, running it")
