@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 import matplotlib
+matplotlib.rcParams['text.usetex'] = True
 import matplotlib.pyplot as plt
 import numpy as np
 import json, re
@@ -36,7 +37,7 @@ args = parser.parse_args()
 
 planets = args.planets
 
-data_filename = "Single_Energies.txt"
+data_filename = "SingleEnergies.txt"
 
 cwd = Path(os.getcwd())
 datafile_path = cwd.parent / "c++" / "output" / data_filename
@@ -48,18 +49,21 @@ if planets is None:
     print(energies.keys())
     quit()
 
+if planets == ["all"]:
+    planets = list(energies.keys())
+    print(planets)
+
 if not all([p in energies.keys() for p in planets]):
     print(f"Error: some planets you entered are not present in the data file {datafile_path}")
     quit()
 
 colors = matplotlib.cm.rainbow(np.linspace(0, 1, len(energies)))
-fig = plt.figure(figsize=(10,6))
+fig, ax = plt.subplots(figsize=(10,6))
 
+for p,c in zip(planets,colors):
+    ax.plot(times, energies[p], label=p, color=c)
 
-
-for p in planets:
-    plt.plot(times, energies[p], label=p)
-
-
-plt.legend(loc="lower left")
+ax.set_xlabel(r"time $\left[ d \right]$")
+ax.set_ylabel(r"Energy $\left[ M_{Sun} AU^2 d^{-2} \right]$")
+ax.legend(loc="lower left")
 plt.show()

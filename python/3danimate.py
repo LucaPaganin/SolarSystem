@@ -74,7 +74,15 @@ ani = animation.FuncAnimation(fig,
                               fnc.update_solar_system,
                               planets_data[0].shape[1],
                               fargs=(planets_data, lines),
-                              interval=fnc.get_animation_interval(planets_data[0], 5),
+                              interval=fnc.get_animation_interval(planets_data[0], 2.5),
                               blit=False)
+
 #ani.save('animation.gif')
+
+if args.moviefilename is not None:
+    # Set up formatting for the movie files
+    Writer = animation.writers['ffmpeg']
+    writer = Writer(fps=90.7, metadata=dict(artist='Me'), bitrate=3600)
+    ani.save(args.moviefilename, writer=writer)
+
 plt.show()
