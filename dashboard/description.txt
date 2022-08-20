@@ -1,0 +1,5 @@
+This is a simulator of the Solar System temporal evolution. 
+Modify your initial conditions as you want, and click on the Run button to update the plots.
+Click on the 'Get Ephemeris' button to retrieve the planets coordinates for the selected date from NASA Horizons API. 
+Click on 'Reset' to restore the original values. 
+The coordinates are referred to the Solar System Barycenter (SSB) reference frame.

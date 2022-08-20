@@ -35,12 +35,14 @@ if not all([p in solar_system.keys() for p in planets]):
 fig = plt.figure(figsize = (10,6))
 ax = fig.add_subplot(111, projection='3d')
 
+colors = matplotlib.cm.rainbow(np.linspace(0, 1, len(planets)))
+
 #For each planet set up
 for pname, c in zip(planets, colors):
     ax.plot(solar_system[pname][0,:],
             solar_system[pname][1,:],
             solar_system[pname][2,:],
-            color=fnc.solar_system_colormap(pname),
+            color=c,
             marker='o',
             label=pname)
 
