@@ -33,3 +33,12 @@ rm -f /etc/nginx/sites-enabled/default
 cat nginx.txt > /etc/nginx/sites-enabled/dash
 
 service nginx reload
+
+echo "Installing and configuring certbot"
+
+snap install core 
+snap refresh core
+snap install --classic certbot
+ln -s /snap/bin/certbot /usr/bin/certbot
+
+ufw allow https
