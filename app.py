@@ -12,7 +12,7 @@ def init_dashboard():
     """Create a Plotly Dash dashboard."""
     dash_app = Dash(
         title="Solar System Simulator",
-        # routes_pathname_prefix='/dashboards/solarsystem/',
+        routes_pathname_prefix='/dashboards/solarsystem/',
         external_stylesheets=[
             dbc.themes.BOOTSTRAP
         ]
