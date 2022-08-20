@@ -1,0 +1,8 @@
+[program:solarsystem]
+command=/root/workdir/SolarSystem/dashboard/venv/bin/gunicorn -b localhost:8000 -w 4 app:server
+directory=/root/workdir/SolarSystem/
+user=root
+autostart=true
+autorestart=true
+stopasgroup=true
+killasgroup=true
