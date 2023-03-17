@@ -60,11 +60,10 @@ def _run_sim(infile, ndays, dt_days, sampling_step_days, workdir):
             p = sp.run(f"{UNIXBINDIR}/main {infile} {ndays} {dt_days} {sampling_step_days}",
                        shell=True, text=True, stdout=sp.PIPE, stderr=sp.PIPE, cwd=workdir, check=True)
         logger.info("finished running simulation")
-        stdout, stderr = p.communicate()
-        if stdout:
-            logger.info(stdout)
-        if stderr:
-            logger.error(stderr)
+        if p.stdout:
+            logger.info(p.stdout)
+        if p.stderr:
+            logger.error(p.stderr)
     except sp.CalledProcessError as e:
         logger.error(e)
     finally:
@@ -77,35 +76,46 @@ def run_simulation(infile=INPUTDIR/"effemeridi.txt", ndays=365, dt_days=0.1, sam
     workdir = basedir/str(uuid.uuid4())
     outdir = workdir/"output"
     outdir.mkdir(exist_ok=True, parents=True)
-    proc = mp.Process(target=_run_sim, 
-                      args=(infile, ndays, dt_days, sampling_step_days, workdir), 
-                      daemon=True)
-    logger.debug(f"available CPUs {mp.cpu_count()}")
-    while len(CUR_PROCS["procs"]) > int(mp.cpu_count()/2):
-        logger.debug(f"currently running processes: {len(CUR_PROCS['procs'])}, waiting...")
-        time.sleep(0.1)
-    proc.start()
-    logger.debug(f"Started process {proc.pid}")
-    with CUR_PROCS["lock"]:
-        logger.debug(f"Adding process {proc.pid} to current processes")
-        CUR_PROCS["procs"][proc.pid] = proc
-    start = timer()
-    logger.debug(f"waiting for process {proc.pid} to complete...")
-    while proc.is_alive():
-        time.sleep(0.1)
-    proc.join()
-    logger.debug(f"process {proc.pid} completed, elapsed time {timer()-start:.6f} s")
-    with CUR_PROCS["lock"]:
-        logger.debug(f"Removing process {proc.pid} from current processes")
-        del CUR_PROCS["procs"][proc.pid]
-        logger.debug(f"Correctly removed process {proc.pid} from current processes")
-        data = {
-            "time_evo": parse_temporal_evolution(outdir/"temporal_evolution.txt", sampling_step_days=sampling_step_days),
-            "energies": parse_single_energies(outdir/"Single_Energies.txt")
-        }
-        logger.debug(f"removing working directory {workdir}")
-        shutil.rmtree(workdir)
-        logger.debug(f"removed working directory {workdir}")
+    try:
+        proc = mp.Process(target=_run_sim, 
+                        args=(infile, ndays, dt_days, sampling_step_days, workdir), 
+                        daemon=True)
+        logger.debug(f"available CPUs {mp.cpu_count()}")
+        while len(CUR_PROCS["procs"]) > int(mp.cpu_count()/2):
+            logger.debug(f"currently running processes: {len(CUR_PROCS['procs'])}, waiting...")
+            time.sleep(0.1)
+        proc.start()
+        logger.debug(f"Started process {proc.pid}")
+        with CUR_PROCS["lock"]:
+            logger.debug(f"Adding process {proc.pid} to current processes")
+            CUR_PROCS["procs"][proc.pid] = proc
+        start = timer()
+        logger.debug(f"waiting for process {proc.pid} to complete...")
+        while proc.is_alive():
+            time.sleep(0.1)
+        proc.join()
+        logger.debug(f"process {proc.pid} completed, elapsed time {timer()-start:.6f} s")
+    finally:
+        with CUR_PROCS["lock"]:
+            logger.debug(f"Removing process {proc.pid} from current processes")
+            try:
+                del CUR_PROCS["procs"][proc.pid]
+                logger.debug(f"Correctly removed process {proc.pid} from current processes")
+            except KeyError:
+                pass
+            try:
+                data = {
+                    "time_evo": parse_temporal_evolution(outdir/"temporal_evolution.txt", sampling_step_days=sampling_step_days),
+                    "energies": parse_single_energies(outdir/"Single_Energies.txt")
+                }
+                logger.debug(f"removing working directory {workdir}")
+                shutil.rmtree(workdir)
+                logger.debug(f"removed working directory {workdir}")
+            except (FileNotFoundError, NotADirectoryError):
+                data = {
+                    "time_evo": None,
+                    "energies": None
+                }
     return data
 
 

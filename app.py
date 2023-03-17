@@ -12,7 +12,10 @@ def init_dashboard():
     """Create a Plotly Dash dashboard."""
     dash_app = Dash(
         title="Solar System Simulator",
-        routes_pathname_prefix='/dashboards/solarsystem/',
+        routes_pathname_prefix='/simulator/',
+        meta_tags=[
+            {"name": "viewport", "content": "width=device-width, initial-scale=1"}
+            ],
         external_stylesheets=[
             dbc.themes.BOOTSTRAP
         ]
@@ -37,4 +40,6 @@ server = app.server
 
 if __name__ == '__main__':
     debug = os.getenv("DASH_DEBUG") == "true"
-    app.run_server(debug=debug)
+    host = "0.0.0.0"
+    # host = "127.0.0.1"
+    app.run_server(debug=debug, host=host)

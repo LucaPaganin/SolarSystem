@@ -30,7 +30,6 @@ def standardSolarSystemTab():
 
 def planetsListColumn():
     planets = init_planets_default()
-    text = (THISDIR/"description.txt").read_text()
     children = [
         dbc.Row(
             dbc.Container(className='planets-header-container',
@@ -38,7 +37,12 @@ def planetsListColumn():
         ),
         dbc.Row(
             dbc.Container(
-                html.P(text, className="text-justify")
+                [
+                    html.P((THISDIR/"description.txt").read_text(), className="text-justify"),
+                    html.A("Reference to SSB", 
+                           href="https://en.wikipedia.org/wiki/International_Celestial_Reference_System_and_its_realizations", 
+                           target="_blank")
+                ]
             )
         ),
         dbc.Row(
@@ -142,13 +146,16 @@ def controlButtons():
 def init_planets_default():
     planets = []
     inital_conditions = DEFAULT_SOLARSYSTEM_INCONDS
+    base_active_bodies = ["Sun", "Mercury", "Venus", "Earth", "Mars"]
     for i, (key, data) in enumerate(inital_conditions.items()):
         coords = dict(zip(['X', 'Y', 'Z'], data['Coordinates']))
         vels = dict(zip(['VX', 'VY', 'VZ'], data['Velocities']))
         mass = data['Mass']
+        # active = data['active']
+        active = key in base_active_bodies
         planets.append(
             planet_component(plId=f"planet{i}", label=key, mass=mass,
-                             coords=coords, vels=vels, active=data['active'])
+                             coords=coords, vels=vels, active=active)
         )
     return planets
 
@@ -228,8 +235,11 @@ def _vector_component(plId, values, labels, kind):
 
 def planet_input_field(plId, label, value, units):
     value = f"{float(value):.4E}"
-    return dbc.InputGroup([
-        dbc.InputGroupText(label.replace("V", "")),
-        dbc.Input(id=f"{plId}-{label}", value=value, type="string"),
-        dbc.InputGroupText(units)
-    ], className='mb-3')
+    return dbc.InputGroup(
+        [
+            dbc.InputGroupText(label.replace("V", "")),
+            dbc.Input(id=f"{plId}-{label}", value=value, type="string"),
+            dbc.InputGroupText(units)
+        ], 
+        className='mb-3'
+    )
